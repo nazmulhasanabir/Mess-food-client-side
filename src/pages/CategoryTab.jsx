@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import { useEffect } from "react";
-import MealCart from "./MealCart/MealCart";
 import MapCategory from "./MapCategory";
 
 const CategoryTab = () => {

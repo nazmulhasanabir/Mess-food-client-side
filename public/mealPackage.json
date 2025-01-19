@@ -1,0 +1,38 @@
+[
+  {
+    "id": "pkg001",
+    "package_name": "Silver Package",
+    "facilities": [
+      "3 meals per day (Breakfast, Lunch, Dinner)",
+      "Standard menu rotation",
+      "2 beverages per week",
+      "Basic hygiene and cleanliness",
+      "Enjoy one specially prepared meal per month, featuring unique dishes"
+    ],
+    "price": 5000
+  },
+  {
+    "id": "pkg002",
+    "package_name": "Gold Package",
+    "facilities": [
+      "3 meals per day with premium options",
+      "Daily dessert included",
+      "4 beverages per week",
+      "Priority seating in the dining area",
+      "Weekly meal customization options"
+    ],
+    "price": 8000
+  },
+  {
+    "id": "pkg003",
+    "package_name": "Platinum Package",
+    "facilities": [
+      "Unlimited meals with a gourmet menu",
+      "Daily dessert and premium beverages",
+      "Access to special dining areas",
+      "Meal customization on demand",
+      "Exclusive weekly food tasting events"
+    ],
+    "price": 12000
+  }
+]
