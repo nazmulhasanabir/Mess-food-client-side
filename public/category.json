@@ -1,0 +1,146 @@
+[
+  {
+    "id": 1,
+    "meal_name": "Pancakes with Syrup",
+    "category": "Breakfast",
+    "image": "https://i.ibb.co.com/w6R050b/breakfast-1.jpg",
+    "distributor_name": "Chef John's Kitchen",
+    "description": "Fluffy pancakes served with maple syrup.",
+    "ingredients": ["Flour", "Eggs", "Milk", "Sugar", "Syrup"],
+    "post_time": "2025-01-15T08:00:00Z",
+    "rating": 4.5,
+    "price":400,
+    "reviews": [
+      {
+        "user": "Alice",
+        "comment": "Delicious and perfectly fluffy!",
+        "rating": 5
+      },
+      {
+        "user": "Bob",
+        "comment": "Could use a little more syrup.",
+        "rating": 4
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "meal_name": "Chicken Biryani",
+    "category": "Lunch",
+    "image": "https://i.ibb.co.com/jbB24s9/lunch-1.jpg",
+    "distributor_name": "Royal Feast Catering",
+    "description": "Aromatic basmati rice cooked with tender chicken and spices.",
+    "ingredients": ["Rice", "Chicken", "Spices", "Yogurt"],
+    "post_time": "2025-01-15T12:00:00Z",
+    "rating": 4.9,
+    "price":400,
+    "reviews": [
+      {
+        "user": "Charlie",
+        "comment": "Best biryani I've had in months!",
+        "rating": 5
+      },
+      {
+        "user": "Diana",
+        "comment": "Perfectly cooked rice and tender chicken.",
+        "rating": 4.8
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "meal_name": "Grilled Chicken with Salad",
+    "category": "Dinner",
+    "image": "https://i.ibb.co.com/GHtXSpF/dinner-1.jpg",
+    "distributor_name": "Healthy Bites",
+    "description": "Juicy grilled chicken served with a fresh garden salad.",
+    "ingredients": ["Chicken", "Lettuce", "Tomato", "Olive Oil"],
+    "post_time": "2025-01-15T19:00:00Z",
+    "rating": 4.8,
+    "price":400,
+    "reviews": [
+      {
+        "user": "Ella",
+        "comment": "Healthy and flavorful!",
+        "rating": 5
+      },
+      {
+        "user": "Frank",
+        "comment": "Salad was crisp, and chicken was perfectly grilled.",
+        "rating": 4.7
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "meal_name": "Masala Dosa",
+    "category": "Breakfast",
+    "image": "https://i.ibb.co.com/TLZZgDn/breakfast-2.jpg",
+    "distributor_name": "South Indian Delights",
+    "description": "Crispy dosa stuffed with spicy potato filling, served with chutney.",
+    "ingredients": ["Rice", "Lentils", "Potato", "Chutney"],
+    "post_time": "2025-01-15T09:00:00Z",
+    "rating": 4.8,
+    "price":400,
+    "reviews": [
+      {
+        "user": "George",
+        "comment": "Authentic and delicious dosa.",
+        "rating": 5
+      },
+      {
+        "user": "Hannah",
+        "comment": "Chutney was amazing, dosa could be crispier.",
+        "rating": 4.6
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "meal_name": "Fish Curry with Rice",
+    "category": "Lunch",
+    "image": "https://i.ibb.co.com/NSGczCX/lunch-2.jpg",
+    "distributor_name": "Coastal Spices",
+    "description": "Spicy fish curry served with steamed rice.",
+    "ingredients": ["Fish", "Coconut Milk", "Rice", "Spices"],
+    "post_time": "2025-01-15T13:00:00Z",
+    "rating": 4.6,
+    "price":400,
+    "reviews": [
+      {
+        "user": "Ivy",
+        "comment": "The curry was bursting with flavors!",
+        "rating": 4.9
+      },
+      {
+        "user": "Jack",
+        "comment": "Fresh fish and great spice balance.",
+        "rating": 4.7
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "meal_name": "Paneer Butter Masala with Naan",
+    "category": "Dinner",
+    "image": "https://i.ibb.co.com/wSVXLk5/dinner-2.jpg",
+    "distributor_name": "Spice Affair",
+    "description": "Rich and creamy paneer butter masala served with soft naan.",
+    "ingredients": ["Paneer", "Tomato", "Butter", "Cream"],
+    "post_time": "2025-01-15T20:00:00Z",
+    "rating": 4.7,
+    "price":400,
+    "reviews": [
+      {
+        "user": "Karen",
+        "comment": "Perfectly cooked paneer, loved the flavors.",
+        "rating": 4.9
+      },
+      {
+        "user": "Liam",
+        "comment": "Naan was soft, and curry was rich.",
+        "rating": 4.5
+      }
+    ]
+  }
+]
