@@ -1,14 +1,20 @@
+import { Link } from 'react-router-dom';
 import logo from '../assets/image/d3c6ebfd45e959318ad0935bcb1562cb.jpg'
 
 const Navbar = () => {
     const food = 
     <>
+    <Link to={'/'}>
+    
         <li>
             Home
         </li>
+    </Link>
+        <Link to={'/allMeal'}>
         <li>
             Meals
         </li>
+        </Link>
         <li>
             Upcoming Meals
         </li>
@@ -33,7 +39,7 @@ const Navbar = () => {
     </>
   return (
     <div>
-      <div className="navbar bg-base-100 fixed z-10 bg-opacity-30 text-white max-w-screen-xl mx-auto">
+      <div className="navbar bg-base-100 fixed z-10 bg-opacity-60  text-black font-semibold max-w-screen-xl mx-auto">
         <div className="navbar-start">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">

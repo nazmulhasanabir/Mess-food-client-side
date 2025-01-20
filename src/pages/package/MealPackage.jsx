@@ -1,23 +1,38 @@
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { Hourglass } from "react-loader-spinner";
 
 const MealPackage = () => {
-      const [MealPackage, setPackage] = useState([])
-        const [loading,setLoading ] = useState(true)
-        useEffect(()=> {
-            fetch('mealPackage.json')
-            .then(res => res.json())
-            .then(data =>{
-                setPackage(data)
-                setLoading(false)
-            })
-        }, [])
+ 
+         const PackageFetch = async () => {
+            const response = await fetch('http://localhost:5000/package')
+            return response.json()
+         }
+         const {data :MealPackage = [], isLoading } = useQuery({
+            queryKey:['package'],
+            queryFn:PackageFetch,
+         })
+
         const getBackgroundColor = (packageName) => {
             if (packageName === "Silver Package") return "bg-gray-300";
             if (packageName === "Gold Package") return "bg-yellow-400";
             if (packageName === "Platinum Package") return "bg-orange-100"; 
             return "bg-white"; 
           };
-        
+          if (isLoading) {
+            return (
+              <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
+                <Hourglass
+                  visible={true}
+                  height="80"
+                  width="80"
+                  ariaLabel="hourglass-loading"
+                  wrapperStyle={{}}
+                  wrapperClass=""
+                  colors={["#306cce", "#72a1ed"]}
+                />
+              </div>
+            );
+          }
     return (
       <>
         <div className="mt-5">

@@ -4,7 +4,7 @@ const UsePackage = () => {
     const [MealPackage, setPackage] = useState([])
     const [loading,setLoading ] = useState(true)
     useEffect(()=> {
-        fetch('mealPackage.json')
+        fetch('http://localhost:8000/package')
         .then(res => res.json())
         .then(data =>{
             setPackage(data)

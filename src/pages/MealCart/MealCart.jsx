@@ -12,11 +12,10 @@ const MealCart = ({ items }) => {
         <div className="badge badge-secondary">{items.category}</div>
         <p>{items.description}</p>
         <p className="font-bold flex items-center justify-center">
-          
           <FaStar />
           {items.rating}
         </p>
-
+      
         <div className="card-actions justify-end">
           <Link to={`meals/${items.id}`}><button className="btn btn-outline  border-0 border-b-4 border-r-4  mt-4">See Details</button></Link>
         </div>

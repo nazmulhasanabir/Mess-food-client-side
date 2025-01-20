@@ -4,6 +4,7 @@ import {
 import Main from "../Layout/Main";
 import Home from "../pages/Home/Home";
 import CardDetails from "../pages/CardDetails";
+import AllMeal from "../pages/MealCart/AllMeal";
 
   export const  router = createBrowserRouter([
     {
@@ -16,7 +17,11 @@ import CardDetails from "../pages/CardDetails";
         },
         {
           path:'meals/:id',
-          element:<CardDetails></CardDetails>
+          element:<CardDetails></CardDetails>,
+        },
+        {
+          path:'allMeal',
+          element:<AllMeal></AllMeal>
         }
       ]
     },
