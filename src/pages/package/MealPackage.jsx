@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { Hourglass } from "react-loader-spinner";
+import { Link } from "react-router-dom";
 
 const MealPackage = () => {
  
@@ -51,7 +52,7 @@ const MealPackage = () => {
                                         <div className="divider"></div>
                                     </ul>)
                                 }
-                        <button className="btn w-full mx-auto">Checkout</button>
+                      <Link to={`/package/${item._id}`}><button className="btn w-full mx-auto">Checkout</button></Link>
                         </div>
                     </div>)
 }

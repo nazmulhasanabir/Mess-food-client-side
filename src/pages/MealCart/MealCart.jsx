@@ -15,9 +15,13 @@ const MealCart = ({ items }) => {
           <FaStar />
           {items.rating}
         </p>
-      
+
         <div className="card-actions justify-end">
-          <Link to={`meals/${items.id}`}><button className="btn btn-outline  border-0 border-b-4 border-r-4  mt-4">See Details</button></Link>
+          <Link to={`/meals/${items._id}`}>
+            <button className="btn btn-outline  border-0 border-b-4 border-r-4  mt-4">
+              See Details
+            </button>
+          </Link>
         </div>
       </div>
     </div>
