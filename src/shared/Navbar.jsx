@@ -1,7 +1,10 @@
 import { Link } from 'react-router-dom';
 import logo from '../assets/image/d3c6ebfd45e959318ad0935bcb1562cb.jpg'
+import { useContext } from 'react';
+import { AuthContext } from '../Providers/AuthProviders';
 
 const Navbar = () => {
+  const {user} = useContext(AuthContext)
     const food = 
     <>
     <Link to={'/'}>
@@ -20,9 +23,11 @@ const Navbar = () => {
             Upcoming Meals
         </li>
         </Link>
+        <Link to={'/signUp'}>
         <li>
             Join Us
         </li>
+        </Link>
         <div className="indicator">
         <svg
           xmlns="http://www.w3.org/2000/svg"

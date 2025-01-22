@@ -7,6 +7,8 @@ import CardDetails from "../pages/CardDetails";
 import AllMeal from "../pages/MealCart/AllMeal";
 import UpcomingMeal from "../pages/Upcoming/UpcomingMeal";
 import CheckOut from "../pages/package/CheckOut";
+import SignUp from "../pages/Join Us/SignUp";
+import SignIn from "../pages/Join Us/SignIn";
 
   export const  router = createBrowserRouter([
     {
@@ -34,7 +36,17 @@ import CheckOut from "../pages/package/CheckOut";
           path:'/package/:id',
           element:<CheckOut></CheckOut>,
           loader:({params})=> fetch(`http://localhost:5000/package/${params.id}`)
-        }
-      ]
+        },
+      
+        {
+          path:'signUp',
+          element:<SignUp></SignUp>
+        },
+        {
+          path:'signIn',
+          element:<SignIn></SignIn>
+        },
+      ],
+        
     },
   ]);
