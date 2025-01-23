@@ -1,21 +1,49 @@
 import { useContext } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Providers/AuthProviders";
+import Swal from "sweetalert2";
+import UseAxiosPublic from "../axios/UseAxiosPublic";
 
 const SignUp = () => {
-  const {createUser} = useContext(AuthContext)
+  const {createUser,UpdateUserProfile} = useContext(AuthContext)
+  const navigate = useNavigate()
+  const axiosPublic = UseAxiosPublic()
     const {
         register,
         handleSubmit,
-        watch,
+        reset,
         formState: { errors },
       } = useForm()
       const onSubmit = data => {
         createUser(data.email, data.password)
         .then(result =>{
-          const userloged = result.user
-          console.log(userloged)
+          const logUser = result.user
+            UpdateUserProfile({ displayName: data.name, photoURL: data.PhotoUrl })
+            .then(() => {
+              const userInfo = {
+                name:data.name,
+                email:data.email,
+                photoURL:data.PhotoUrl,
+              };
+              axiosPublic.post('/users', userInfo).then((res) => {
+                if(res.data.insertedId){
+                  reset()
+                  Swal.fire({
+                    position: "top-center",
+                    icon: "success",
+                    title: " User Created Successfully",
+                    showConfirmButton: false,
+                    timer: 1500,
+                  });
+                }
+              })
+
+              navigate('/')
+            })
+            .catch((err) => {
+              console.log(err);
+            });
         })
       }
     return (
@@ -37,6 +65,13 @@ const SignUp = () => {
           </label>
           <input type="text" placeholder="Name"   {...register("name", {required:true})} name="name" className="input input-bordered" required />
           {errors.name && <span className="text-red-500">Name is required</span>}
+        </div>
+        <div className="form-control">
+          <label className="label">
+            <span className="label-text">PhotoUrl</span>
+          </label>
+          <input type="text" placeholder="PhotoUrl"   {...register("PhotoUrl", {required:true})} name="PhotoUrl" className="input input-bordered" required />
+          {errors.PhotoUrl && <span className="text-red-500">PhotoUrl is required</span>}
         </div>
         <div className="form-control">
           <label className="label">

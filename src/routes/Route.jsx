@@ -9,6 +9,7 @@ import UpcomingMeal from "../pages/Upcoming/UpcomingMeal";
 import CheckOut from "../pages/package/CheckOut";
 import SignUp from "../pages/Join Us/SignUp";
 import SignIn from "../pages/Join Us/SignIn";
+import PrivateRoute from "./PrivateRoute";
 
   export const  router = createBrowserRouter([
     {
@@ -34,7 +35,7 @@ import SignIn from "../pages/Join Us/SignIn";
         },
         {
           path:'/package/:id',
-          element:<CheckOut></CheckOut>,
+          element:<PrivateRoute><CheckOut></CheckOut>,</PrivateRoute>,
           loader:({params})=> fetch(`http://localhost:5000/package/${params.id}`)
         },
       

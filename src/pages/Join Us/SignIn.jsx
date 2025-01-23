@@ -1,19 +1,28 @@
 import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Providers/AuthProviders";
 import { useForm } from "react-hook-form";
+import Swal from "sweetalert2";
 
 const SignIn = () => {
-  const {signIn,logout} = useContext(AuthContext)
-  const {register,handleSubmit,watch,formState:{errors}} = useForm()
+  const navigate = useNavigate()
+  const {signIn} = useContext(AuthContext)
+  const {register,handleSubmit,formState:{errors}} = useForm()
   const onSubmit = data => {
     signIn(data.email,data.password)
     .then(result=>{
-      const user = result.user
-      console.log(user);
+       if(result.user){
+                   Swal.fire({
+                     position: "top-center",
+                     icon: "success",
+                     title: "Login successful",
+                     showConfirmButton: false,
+                     timer: 1500
+                   });
+                   navigate('/')
+                 }
     })
   }
-  console.log(watch('example'))
   return (
     <div>
       <div className="hero bg-base-200 min-h-screen">
@@ -63,7 +72,7 @@ const SignIn = () => {
                 </label>
               </div>
               <div className="form-control mt-6">
-                <button className="btn btn-primary">Login</button>
+              <input className="btn btn-primary" type="submit" value="Sign-In" />
               </div>
               <Link to={"/signUp"}>
                 <p>Are You new there?Click Here</p>
