@@ -3,20 +3,25 @@ import logo from "../assets/image/d3c6ebfd45e959318ad0935bcb1562cb.jpg";
 import { useContext } from "react";
 import { AuthContext } from "../Providers/AuthProviders";
 import Swal from "sweetalert2";
+import { Hourglass } from "react-loader-spinner";
+import { useQuery } from "@tanstack/react-query";
+import useAdmin from "../pages/Dashboard/useAdmin";
 
 const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
+  const [isAdmin] = useAdmin();
+
   const handleLogout = () => {
     logout()
-    .then(() => {
-      Swal.fire({
-        icon: "success",
-        title: "Sign-Out!",
-        text: "Sign-Out successful!",
-      });
-    })
-    .catch(error => console.log(error))
-  }
+      .then(() => {
+        Swal.fire({
+          icon: "success",
+          title: "Sign-Out!",
+          text: "Sign-Out successful!",
+        });
+      })
+      .catch((error) => console.log(error));
+  };
   const food = (
     <>
       <Link to={"/"}>
@@ -58,7 +63,6 @@ const Navbar = () => {
   );
   return (
     <div>
-      
       <div className="navbar bg-base-100  bg-opacity-60  text-black font-semibold max-w-screen-xl mx-auto">
         <div className="navbar-start">
           <div className="dropdown">
@@ -96,8 +100,7 @@ const Navbar = () => {
           <ul className="menu menu-horizontal px-1 space-x-6">{food}</ul>
         </div>
         <div className="navbar-end">
-       
-        <div className="dropdown dropdown-end ">
+          <div className="dropdown dropdown-end ">
             <div tabIndex={0} role="" className=" relative m-1 right-3">
               {user && user?.email ? (
                 <div className="group relative w-12 h-12 ">
@@ -107,18 +110,17 @@ const Navbar = () => {
                   </div>
                 </div>
               ) : (
-                <Link >
+                <Link>
                   <button className="btn">Login</button>
                 </Link>
-              )
-              }
+              )}
             </div>
             <ul
               tabIndex={0}
-              className="dropdown-content menu bg-[url('https://i.pinimg.com/474x/70/76/74/707674868b11a1d4cdb92e681b37b279.jpg')] bg-cover rounded-box  z-[10] w-56 p-1  shadow"
+              className="dropdown-content menu bg-[url('https://i.pinimg.com/474x/70/76/74/707674868b11a1d4cdb92e681b37b279.jpg')] bg-cover rounded-box  z-[10] p-2  shadow"
             >
               {user && user?.email ? (
-                <div className="flex items-center  flex-col">
+                <div className="flex items-center  flex-col ">
                   <img
                     className="w-9 h-9 rounded-full"
                     src={user.photoURL}
@@ -129,20 +131,46 @@ const Navbar = () => {
                     <p className="text-white lg:block">{user.email}</p>
                   </div>
 
-
-                  <div className="flex justify-center">
-                 <Link to={'/dashboard'}>
-                  <button
-                  
-                 className="dark:bg-red-600 bg-purple-400 p-1  rounded-xl text-white "
-                  >All User</button>
-                 </Link>
-                  <button
-                    onClick={handleLogout}
-                    className="dark:bg-red-600 bg-purple-400 p-1  rounded-xl text-white "
-                  >
-                    Log-out
-                  </button>
+                  <div className="flex justify-center bg-black rounded-2xl p-3">
+                    {isAdmin ? (
+                      <div className="flex flex-col gap-2">
+                        <Link to={"/dashboard"}>
+                          <button className="dark:bg-red-600    rounded-xl text-white ">
+                            All User
+                          </button>
+                        </Link>
+                        <button
+                          onClick={handleLogout}
+                          className="dark:bg-red-600    rounded-xl text-white "
+                        >
+                          Log-out
+                        </button>
+                      </div>
+                    ) : (
+                      <div  className="flex flex-col gap-2">
+                        <Link to={"/dashboard"}>
+                          <button className="dark:bg-red-600    rounded-xl text-white ">
+                            Requested Meal
+                          </button>
+                        </Link>
+                        <Link to={"/payhistory"}>
+                          <button className="dark:bg-red-600    rounded-xl text-white ">
+                            Payment History
+                          </button>
+                        </Link>
+                        <Link to={"/myReviews"}>
+                          <button className="dark:bg-red-600    rounded-xl text-white ">
+                          My Reviews
+                          </button>
+                        </Link>
+                        <button
+                          onClick={handleLogout}
+                          className="dark:bg-red-600    rounded-xl text-white "
+                        >
+                          Log-out
+                        </button>
+                      </div>
+                    )}
                   </div>
                 </div>
               ) : (
@@ -152,11 +180,8 @@ const Navbar = () => {
               )}
             </ul>
           </div>
-
         </div>
         {/* extra          */}
-
-       
       </div>
     </div>
   );

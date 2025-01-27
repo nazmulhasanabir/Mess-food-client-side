@@ -4,11 +4,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Providers/AuthProviders";
 import Swal from "sweetalert2";
 import UseAxiosPublic from "../axios/UseAxiosPublic";
+import SocialLogin from "../social/SocialLogin";
 
 const SignUp = () => {
-  const {createUser,UpdateUserProfile} = useContext(AuthContext)
+  const {createUser,UpdateUserProfile,} = useContext(AuthContext)
   const navigate = useNavigate()
   const axiosPublic = UseAxiosPublic()
+  const badge = 'Bronze';
     const {
         register,
         handleSubmit,
@@ -19,7 +21,7 @@ const SignUp = () => {
         createUser(data.email, data.password)
         .then(result =>{
           const logUser = result.user
-            UpdateUserProfile({ displayName: data.name, photoURL: data.PhotoUrl })
+            UpdateUserProfile({ displayName:`${data.name} (${badge})`, photoURL: data.PhotoUrl })
             .then(() => {
               const userInfo = {
                 name:data.name,
@@ -98,6 +100,7 @@ const SignUp = () => {
         </div>
     <Link to={'/signIn'}><p>You have already account?Click Here</p></Link>
       </form>
+      <SocialLogin></SocialLogin>
     </div>
   </div>
 </div>

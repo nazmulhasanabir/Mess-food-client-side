@@ -20,11 +20,13 @@ const CheckOutForm = () => {
       setPackages("Silver");
     } else if (price === "8000") {
       setPackages("Golden");
-    } else {
+    } else{
       setPackages("Platinum");
     }
-    if (price) {
+  
+    if (price > 0) {
       axiosSecure
+      
         .post("/create-payment-intent", { price: parseFloat(price) })
         .then((res) => {
           setClientSiteSecret(res.data.clientSecret);
@@ -34,8 +36,6 @@ const CheckOutForm = () => {
         });
     }
   }, [axiosSecure, price]);
-  console.log(packages);
-  console.log(typeof price);
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (!stripe || !element) {
@@ -79,8 +79,9 @@ const CheckOutForm = () => {
           email: user.email,
           packPrice: price,
           transactionId: paymentIntent.id,
-          // name:package_name,
+          pack_name:packages,
           date: new Date(),
+          status : 'Success'
         };
         const res = await axiosSecure.post("/payments", payment);
         if (res.data.insertedId) {

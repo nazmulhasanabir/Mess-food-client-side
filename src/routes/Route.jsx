@@ -12,6 +12,7 @@ import AddReview from "../pages/Review/AddReview";
 import Payment from "../pages/package/Payment";
 import PaymentHistory from "../pages/package/Payment/PaymentHistory";
 import AllUsers from "../pages/Dashboard/AllUsers";
+import MyReview from "../pages/Review/MyReview";
 
 
 export const router = createBrowserRouter([
@@ -63,7 +64,9 @@ export const router = createBrowserRouter([
       },
       {
         path: "review/:id",
-        element: <AddReview></AddReview>,
+        element: <PrivateRoute>
+          <AddReview></AddReview>
+        </PrivateRoute>,
       },
       {
         path:'paymentHistory',
@@ -80,8 +83,24 @@ export const router = createBrowserRouter([
         ),
       },
       {
+        path:'/payhistory',
+        element:<PrivateRoute>
+          <PaymentHistory></PaymentHistory>
+          </PrivateRoute>
+        
+      },
+      {
         path:'/dashboard',
-        element:<PrivateRoute><AllUsers></AllUsers></PrivateRoute>
+        element:<PrivateRoute>
+          <AllUsers></AllUsers>
+          </PrivateRoute>
+        
+      },
+      {
+        path:'/myReviews',
+        element:<PrivateRoute>
+          <MyReview></MyReview>
+        </PrivateRoute>
         
       },
     ],

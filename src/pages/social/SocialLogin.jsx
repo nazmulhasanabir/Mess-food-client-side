@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 const SocialLogin = () => {
     const axiosPublic = UseAxiosPublic()
     const navigate = useNavigate()
+    const badge = 'Bronze'
     const {googleLogin}= useContext(AuthContext)
     const handleGoogle = () => {
         googleLogin()
@@ -16,7 +17,9 @@ const SocialLogin = () => {
             const userInfo = {
                 email:result.user?.email,
                 name:result.user?.displayName,
-                photo:result.user?.photoURL
+                photo:result.user?.photoURL,
+                badge:badge
+
             }
             axiosPublic.post('/users', userInfo)
             .then(res => {

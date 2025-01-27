@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../../Providers/AuthProviders";
 import { useForm } from "react-hook-form";
 import ReactStars from "react-rating-stars-component";
@@ -10,7 +10,11 @@ const AddReview = () => {
   const { user } = useContext(AuthContext);
   const axiosPublic = UseAxiosPublic();
   const { id } = useParams();
-
+  const [card, setCard] = useState([])
+  const location = useLocation()
+  const name = user.displayName
+  const mail  = user.email
+  const mealName = card.meal_name
   const [rating, setRating] = useState(0);
   const handleInputChange = (e) => {
     let value = parseInt(e.target.value, 10);
@@ -27,9 +31,12 @@ const AddReview = () => {
     reset,
     formState: { errors },
   } = useForm();
-
+  axiosPublic.get(`meals/${id}`)
+  .then((res)=> {
+    setCard(res.data)
+  })
   const onSubmit = (data) => {
-    axiosPublic.post("/review", { data, id }).then((res) => {
+    axiosPublic.post("/review", { data, id, name,mail,mealName }).then((res) => {
             Swal.fire({
               position: "top-center",
               icon: "success",
@@ -37,7 +44,7 @@ const AddReview = () => {
               showConfirmButton: false,
               timer: 1500,
             });
-        
+        navigate(`/meals/${id}`)
     });
   };
   return (
