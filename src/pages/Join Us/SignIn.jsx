@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Providers/AuthProviders";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
+import SocialLogin from "../social/SocialLogin";
 
 const SignIn = () => {
   const navigate = useNavigate()
@@ -77,6 +78,7 @@ const SignIn = () => {
               <Link to={"/signUp"}>
                 <p>Are You new there?Click Here</p>
               </Link>
+              <SocialLogin></SocialLogin>
             </form>
           </div>
         </div>

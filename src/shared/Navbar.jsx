@@ -6,7 +6,6 @@ import Swal from "sweetalert2";
 
 const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
-  console.log(user);
   const handleLogout = () => {
     logout()
     .then(() => {
@@ -59,6 +58,7 @@ const Navbar = () => {
   );
   return (
     <div>
+      
       <div className="navbar bg-base-100  bg-opacity-60  text-black font-semibold max-w-screen-xl mx-auto">
         <div className="navbar-start">
           <div className="dropdown">
@@ -129,12 +129,21 @@ const Navbar = () => {
                     <p className="text-white lg:block">{user.email}</p>
                   </div>
 
+
+                  <div className="flex justify-center">
+                 <Link to={'/dashboard'}>
+                  <button
+                  
+                 className="dark:bg-red-600 bg-purple-400 p-1  rounded-xl text-white "
+                  >All User</button>
+                 </Link>
                   <button
                     onClick={handleLogout}
                     className="dark:bg-red-600 bg-purple-400 p-1  rounded-xl text-white "
                   >
                     Log-out
                   </button>
+                  </div>
                 </div>
               ) : (
                 <Link to={"/signIn"}>
