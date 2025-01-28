@@ -136,7 +136,32 @@ const Navbar = () => {
                       <div className="flex flex-col gap-2">
                         <Link to={"/dashboard"}>
                           <button className="dark:bg-red-600    rounded-xl text-white ">
-                            All User
+                          Manage Users
+                          </button>
+                        </Link>
+                        <Link to={"/addMeal"}>
+                          <button className="dark:bg-red-600    rounded-xl text-white ">
+                          Add Meal
+                          </button>
+                        </Link>
+                        <Link to={"/adminAllMeal"}>
+                          <button className="dark:bg-red-600    rounded-xl text-white ">
+                          All Meal
+                          </button>
+                        </Link>
+                        <Link to={"/allReview"}>
+                          <button className="dark:bg-red-600    rounded-xl text-white ">
+                          All Review
+                          </button>
+                        </Link>
+                        <Link to={"/serveMeal"}>
+                          <button className="dark:bg-red-600    rounded-xl text-white ">
+                          Serve Meal
+                          </button>
+                        </Link>
+                        <Link to={"/upcomingMeal"}>
+                          <button className="dark:bg-red-600    rounded-xl text-white ">
+                          Upcoming Meal
                           </button>
                         </Link>
                         <button

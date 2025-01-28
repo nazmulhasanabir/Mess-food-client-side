@@ -21,12 +21,13 @@ const CardDetails = () => {
     price,
     reviews,
   } = CardDetails;
+  const [isSubscribed, setIsSubscribed] = useState(false);
 
   const { user } = useContext(AuthContext);
   const [like, setLike] = useState([]); 
   const [reviewes, setReviews] = useState([]); 
   const axiosPublic = UseAxiosPublic();
-  console.log(reviewes);
+
  
   useEffect(() => {
    
@@ -40,20 +41,47 @@ const CardDetails = () => {
     });
   }, [_id]); 
 
-  const handleMealRequest = (name, like , review, email , id) =>{
+  // const handleMealRequest = (name, like , review, email , id) =>{
    
-    axiosPublic.post('mealRequest', {meal_name:name, like:like, review:review, email:email , idNo:id})
-    .then(() =>{
-      Swal.fire({
-        position: "top-center",
-        icon: "success",
-        title: "meal request send successful",
-        showConfirmButton: false,
-        timer: 1500
+  //   axiosPublic.post('mealRequest', {meal_name:name, like:like, review:review, email:email , idNo:id})
+  //   .then(() =>{
+  //     Swal.fire({
+  //       position: "top-center",
+  //       icon: "success",
+  //       title: "meal request send successful",
+  //       showConfirmButton: false,
+  //       timer: 1500
+  //     });
+  //   })
+  // }
+  // Handle Meal Request
+  const handleMealRequest = (name, like , review, email , id) => {
+    // if (!isSubscribed) {
+    if (isSubscribed) {
+      Swal.fire("Error", "You need a subscription to request a meal.", "error");
+      return;
+    }
+
+    const mealRequest = {
+      email: email,
+      name: name,
+      like,
+      review,
+      status: "pending",
+    };
+
+    axiosPublic
+      .post("http://localhost:5000/mealRequest", mealRequest)
+      .then((res) => {
+        if (res.data.insertedId) {
+          Swal.fire("Success", "Meal request submitted successfully!", "success");
+        }
+      })
+      .catch((error) => {
+        Swal.fire("Error", "Failed to submit meal request.", "error");
+        console.error("Error requesting meal:", error);
       });
-    })
-  }
- 
+  };
   const handleLike = (name, id) => {
     axiosPublic.post("/like", { meal_name: name, meal_id: id }).then(() => {
  

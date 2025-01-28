@@ -13,6 +13,13 @@ import Payment from "../pages/package/Payment";
 import PaymentHistory from "../pages/package/Payment/PaymentHistory";
 import AllUsers from "../pages/Dashboard/AllUsers";
 import MyReview from "../pages/Review/MyReview";
+import AdminRoute from "./AdminRoute";
+import AddMeal from "../pages/Dashboard/AdminUser/AddMeal";
+import AllMeal_admin from "../pages/Dashboard/AdminUser/AllMeal_admin";
+import AllReview from "../pages/Dashboard/AdminUser/AllReview";
+import ServeMeal from "../pages/Dashboard/AdminUser/ServeMeal";
+import UpcomingMealsAdmin from "../pages/Dashboard/AdminUser/UpcomingMealsAdmin";
+import AddUpcoming from "../pages/Dashboard/AdminUser/AddUpcoming";
 
 
 export const router = createBrowserRouter([
@@ -95,6 +102,40 @@ export const router = createBrowserRouter([
           <AllUsers></AllUsers>
           </PrivateRoute>
         
+      },
+      {
+        path:'/addMeal',
+        element:<AdminRoute><AddMeal></AddMeal> </AdminRoute>
+      },
+      {
+        path:'/adminAllMeal',
+        element:<AdminRoute>
+          <AllMeal_admin></AllMeal_admin>
+           </AdminRoute>
+      },
+      {
+        path:'/allReview',
+        element:<AdminRoute>
+          <AllReview></AllReview>
+           </AdminRoute>
+      },
+      {
+        path:'/serveMeal',
+        element:<AdminRoute>
+            <ServeMeal></ServeMeal>
+           </AdminRoute>
+      },
+      {
+        path:'/upcomingMeal',
+        element:<AdminRoute>
+          <UpcomingMealsAdmin></UpcomingMealsAdmin>
+           </AdminRoute>
+      },
+      {
+        path:'/addUpcoming',
+        element:<AdminRoute>
+          <AddUpcoming></AddUpcoming>
+           </AdminRoute>
       },
       {
         path:'/myReviews',

@@ -1,73 +1,109 @@
-import { useQuery } from "@tanstack/react-query";
-import { Hourglass } from "react-loader-spinner";
-import MealCart from "./MealCart";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-const AllMeal = () => {
-  const AllMeal = async () => {
-    const response = await fetch("http://localhost:5000/meals");
-    return response.json();
+const MealsTable = () => {
+  const [meals, setMeals] = useState([]);
+  const [sortBy, setSortBy] = useState(""); // For sorting
+  const navigate = useNavigate();
+
+  // Fetch meals with sorting
+  const fetchMeals = async (sortBy = "") => {
+    try {
+      const { data } = await axios.get(`http://localhost:5000/meals`, {
+        params: { sortBy },
+      });
+      setMeals(data);
+    } catch (error) {
+      console.error("Error fetching meals:", error);
+    }
   };
 
-  const { data: meal = [], isLoading } = useQuery({
-    queryKey: ["meals"],
-    queryFn: AllMeal,
-  });
+  // Fetch meals initially and whenever sortBy changes
+  useEffect(() => {
+    fetchMeals(sortBy);
+  }, [sortBy]);
 
-  if (isLoading) {
-    return (
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100vh",
-        }}
-      >
-        <Hourglass
-          visible={true}
-          height="80"
-          width="80"
-          ariaLabel="hourglass-loading"
-          wrapperStyle={{}}
-          wrapperClass=""
-          colors={["#306cce", "#72a1ed"]}
-        />
-      </div>
-    );
-  }
+  // Handle Delete
+  const handleDelete = async (id) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this meal?");
+    if (confirmDelete) {
+      try {
+        await axios.delete(`http://localhost:5000/meals/${id}`);
+        setMeals((prevMeals) => prevMeals.filter((meal) => meal.id !== id));
+      } catch (error) {
+        console.error("Error deleting meal:", error);
+      }
+    }
+  };
+
+  // Sort Meals
+  const handleSort = (field) => {
+    setSortBy(field);
+  };
+
   return (
-    <div className="">
-        {/* search function */}
-     <div className="flex flex-row justify-center items-center ">
-     <label className="input input-bordered flex items-center gap-2">
-        <input type="text" className="grow" placeholder="Search" />
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 16 16"
-          fill="currentColor"
-          className="h-4 w-4 opacity-70"
+    <div className="p-4">
+      <h1 className="text-2xl font-bold mb-4">All Meals</h1>
+      <div className="flex justify-end space-x-2 mb-4">
+        <button
+          className="px-4 py-2 bg-blue-500 text-white rounded"
+          onClick={() => handleSort("likes")}
         >
-          <path
-            fillRule="evenodd"
-            d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
-            clipRule="evenodd"
-          />
-        </svg>
-      </label>
-      {/* filter  */}
-      <select className="select select-bordered w-full max-w-xs">
-  <option disabled selected>Who shot first?</option>
-  <option>Han Solo</option>
-  <option>Greedo</option>
-</select>
-     </div>
-      <div className="grid md:grid-cols-3 gap-10">
-        {meal.map((items) => (
-          <MealCart key={items.id} items={items}></MealCart>
-        ))}
+          Sort by Likes
+        </button>
+        <button
+          className="px-4 py-2 bg-blue-500 text-white rounded"
+          onClick={() => handleSort("reviews_count")}
+        >
+          Sort by Reviews Count
+        </button>
       </div>
+      <table className="table-auto w-full border border-gray-300">
+        <thead>
+          <tr className="bg-gray-100 text-left">
+            <th className="p-2 border">Title</th>
+            <th className="p-2 border">Likes</th>
+            <th className="p-2 border">Reviews Count</th>
+            <th className="p-2 border">Rating</th>
+            <th className="p-2 border">Distributor</th>
+            <th className="p-2 border">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {meals.map((meal) => (
+            <tr key={meal.id} className="hover:bg-gray-50">
+              <td className="p-2 border">{meal.title}</td>
+              <td className="p-2 border">{meal.likes}</td>
+              <td className="p-2 border">{meal.reviews_count}</td>
+              <td className="p-2 border">{meal.rating}</td>
+              <td className="p-2 border">{meal.distributor_name}</td>
+              <td className="p-2 border flex space-x-2">
+                <button
+                  className="px-2 py-1 bg-green-500 text-white rounded"
+                  onClick={() => navigate(`/meals/${meal.id}`)}
+                >
+                  View
+                </button>
+                <button
+                  className="px-2 py-1 bg-yellow-500 text-white rounded"
+                  onClick={() => navigate(`/meals/edit/${meal.id}`)}
+                >
+                  Update
+                </button>
+                <button
+                  className="px-2 py-1 bg-red-500 text-white rounded"
+                  onClick={() => handleDelete(meal.id)}
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };
 
-export default AllMeal;
+export default MealsTable;
