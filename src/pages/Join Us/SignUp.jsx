@@ -9,7 +9,6 @@ import SocialLogin from "../social/SocialLogin";
 const SignUp = () => {
   const { createUser, UpdateUserProfile } = useContext(AuthContext);
   const [error, setError] = useState("");
-  const [preview, setPreview] = useState(null);
   const navigate = useNavigate();
   const axiosPublic = UseAxiosPublic();
   const badge = "Bronze";
@@ -22,42 +21,33 @@ const SignUp = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    const formData = new FormData();
-    formData.append("image", data.image[0]);
-
-    const imgbbAPI = "https://api.imgbb.com/1/upload?key=YOUR_IMGBB_API_KEY";
-
+    console.log(data);
     try {
-      // Upload image to ImgBB
-      const imgResponse = await fetch(imgbbAPI, {
-        method: "POST",
-        body: formData,
-      });
-
-      const imgResult = await imgResponse.json();
-      if (!imgResult.success) throw new Error("Image upload failed");
-
-      const imageUrl = imgResult.data.url;
-
       // Create user with email & password
       const result = await createUser(data.email, data.password);
       const logUser = result.user;
 
+      // Update user profile with name and a default or empty photoURL
       await UpdateUserProfile({
         displayName: data.name,
-        photoURL: imageUrl,
+        photoURL: data.image, // Set to a default image URL or leave empty
       });
 
+      // Prepare user info for saving to the database
       const userInfo = {
         name: data.name,
         email: data.email,
-        photoURL: imageUrl,
+        photoURL: data.image, // Set to a default image URL or leave empty
         badge: badge,
       };
+      console.log(userInfo);
+      // Save user info to the database
+      // await axiosPublic.post("/users", userInfo);
 
-      await axiosPublic.post("/users", userInfo);
-
+      // Reset the form
       reset();
+
+      // Show success message
       Swal.fire({
         position: "top-center",
         icon: "success",
@@ -66,6 +56,7 @@ const SignUp = () => {
         timer: 1500,
       });
 
+      // Navigate to the home page
       navigate("/");
     } catch (err) {
       setError(err.message);
@@ -90,24 +81,6 @@ const SignUp = () => {
                   className="input input-bordered"
                 />
                 {errors.name && <span className="text-red-500">Name is required</span>}
-              </div>
-
-              {/* Image Upload */}
-              <div className="form-control">
-                <label className="label">
-                  <span className="label-text">Upload Profile Picture</span>
-                </label>
-                <input
-                  type="file"
-                  accept="image/*"
-                  {...register("image", { required: "Image is required" })}
-                  className="file-input file-input-bordered"
-                  onChange={(e) => setPreview(URL.createObjectURL(e.target.files[0]))}
-                />
-                {errors.image && <span className="text-red-500">{errors.image.message}</span>}
-                {preview && (
-                  <img src={preview} alt="Preview" className="mt-2 w-24 h-24 rounded-full" />
-                )}
               </div>
 
               {/* Email */}
@@ -148,16 +121,21 @@ const SignUp = () => {
                   </p>
                 )}
               </div>
-
+                  {/* image section */}
+                  <div className="form-control w-full my-6">
+                  <input {...register('image',{required:true} )}  type="file" className="file-input file-input-bordered w-full max-w-xs" />
+                  </div>
               {/* Submit Button */}
               <div className="form-control mt-6">
                 <input className="btn btn-primary" type="submit" value="Sign Up" />
               </div>
 
+              {/* Link to Sign In Page */}
               <Link to={"/signIn"}>
                 <p>You already have an account? Click here</p>
               </Link>
 
+              {/* Display error message if any */}
               {error && <p className="text-xl text-red-600">{error}</p>}
             </form>
             <SocialLogin />
