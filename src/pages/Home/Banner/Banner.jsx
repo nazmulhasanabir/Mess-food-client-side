@@ -21,7 +21,7 @@ const Banner = () => {
       </div>
     
     </Carousel>
-    <div className="divider divider-error text-center text-3xl font-bold text-red-600">Meal Category</div>
+    
    </>
   );
 };

@@ -10,7 +10,7 @@ const ServeMeal = () => {
 
   useEffect(() => {
     axiosPublic
-      .get(`http://localhost:5000/mealRequest?username=${search}`)
+      .get(`https://hostel-manaegement-server-side.vercel.app/mealRequest?username=${search}`)
       .then((res) => {
         setMealRequests(res.data);
       })
@@ -22,7 +22,7 @@ const ServeMeal = () => {
 
   const handleServe = (id) => {
     axiosPublic
-      .put(`http://localhost:5000/mealRequest/serve/${id}`)
+      .put(`https://hostel-manaegement-server-side.vercel.app/mealRequest/serve/${id}`)
       .then((response) => {
         console.log("Meal served:", response.data);
   

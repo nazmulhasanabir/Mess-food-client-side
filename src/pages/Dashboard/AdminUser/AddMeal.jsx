@@ -1,6 +1,5 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
-
 import Swal from "sweetalert2";
 import axios from "axios";
 import { AuthContext } from "../../../Providers/AuthProviders";
@@ -14,9 +13,18 @@ const AddMeal = () => {
     formState: { errors },
   } = useForm();
 
+  const [imagePreview, setImagePreview] = useState(null);
+
+  // Handle image preview
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImagePreview(URL.createObjectURL(file));
+    }
+  };
+
   // Submit handler
   const onSubmit = async (data) => {
-    // Prepare meal data
     const mealData = {
       meal_name: data.title,
       category: data.category,
@@ -27,15 +35,18 @@ const AddMeal = () => {
       rating: 0,
       price: parseFloat(data.price),
       distributorEmail: user?.email,
+      image: imagePreview || "", 
     };
 
     try {
-      // Save meal to the database
-      const response = await axios.post("http://localhost:5000/addMeal", mealData);
-
-      if (response.data.insertedId) {
+      const response = await axios.post(
+        "https://hostel-manaegement-server-side.vercel.app/addMeal",
+        mealData
+      );
+      if (response.data.result.insertedId) {
         Swal.fire("Success!", "Meal has been added successfully.", "success");
-        reset(); // Reset the form
+        reset(); // Reset form
+        setImagePreview(null); // Reset image preview
       }
     } catch (error) {
       console.error("Error adding meal:", error);
@@ -134,6 +145,30 @@ const AddMeal = () => {
                   <span className="text-red-500 text-sm">{errors.price.message}</span>
                 )}
               </div>
+
+              {/* Image Upload */}
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text">Meal Image</span>
+                </label>
+                <input
+                  type="file"
+                  className="file-input file-input-bordered"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                />
+              </div>
+
+              {/* Image Preview */}
+              {imagePreview && (
+                <div className="mt-4 text-center">
+                  <img
+                    src={imagePreview}
+                    alt="Meal Preview"
+                    className="w-full h-40 object-cover rounded-lg shadow-lg"
+                  />
+                </div>
+              )}
 
               {/* Distributor Name (readonly) */}
               <div className="form-control">

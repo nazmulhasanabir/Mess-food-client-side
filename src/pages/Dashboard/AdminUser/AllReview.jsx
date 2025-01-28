@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const AllReview = () => {
   const [reviews, setReviews] = useState([]);
@@ -9,7 +10,7 @@ const AllReview = () => {
   // Fetch all reviews
   const fetchReviews = async () => {
     try {
-      const { data } = await axios.get("http://localhost:5000/review");
+      const { data } = await axios.get("https://hostel-manaegement-server-side.vercel.app/review");
       setReviews(data);
     } catch (error) {
       console.error("Error fetching reviews:", error);
@@ -18,11 +19,27 @@ const AllReview = () => {
 
   // Delete a review
   const handleDelete = async (id) => {
-    const confirmDelete = window.confirm("Are you sure you want to delete this review?");
-    if (confirmDelete) {
+    const confirmDelete = await Swal.fire({
+          title: "Are you sure?",
+          text: "You won't be able to revert this!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Yes, delete it!",
+          cancelButtonText: "No, cancel!",
+        });
+    
+    if (confirmDelete.isConfirmed) {
       try {
-        await axios.delete(`http://localhost:5000/reviews/${id}`);
+        await axios.delete(`https://hostel-manaegement-server-side.vercel.app/reviews/${id}`);
         setReviews((prevReviews) => prevReviews.filter((review) => review._id !== id));
+         Swal.fire({
+                  title: "Deleted!",
+                  text: "The meal has been deleted.",
+                  icon: "success",
+                  timer: 2000, // Optional: Auto-dismiss after 2 seconds
+                  showConfirmButton: false,
+                });
+     
       } catch (error) {
         console.error("Error deleting review:", error);
       }

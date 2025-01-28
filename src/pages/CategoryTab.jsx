@@ -1,30 +1,35 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import MapCategory from "./MapCategory";
 import { useQuery } from "@tanstack/react-query";
 import { Hourglass } from "react-loader-spinner";
-
 const CategoryTab = () => {
   const fetchMeals = async () => {
-    const response = await fetch("http://localhost:5000/meals");
-    return response.json();
+    try {
+      const response = await fetch("https://hostel-manaegement-server-side.vercel.app/meals");
+      const data = await response.json();
+      return data;
+      
+    } catch (error) {
+      console.error("Error fetching meals:", error);
+      return [];
+    }
   };
-
-  const { data: menu = [], isLoading } = useQuery({
+  const { data: menu = [], isLoading, error } = useQuery({
     queryKey: ["meals"],
     queryFn: fetchMeals,
   });
-
-  const Breakfast = menu.filter((item) => item.category === "Breakfast");
-  const Lunch = menu.filter((item) => item.category === "Lunch");
-  const Dinner = menu.filter((item) => item.category === "Dinner");
-
+  const Breakfast = menu?.meals?.filter((item) => item.category === "Breakfast") ;
+  const Lunch = menu?.meals?.filter((item) => item.category === "Lunch") ;
+  const Dinner = menu?.meals?.filter((item) => item.category === "Dinner") ;
   const [tabIndex, setTabindex] = useState(0);
-
+  if (error) {
+    return <div>Error loading meals: {error.message}</div>;
+  }
   if (isLoading) {
     return (
-      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
+      <div className="flex justify-center items-center h-screen">
         <Hourglass
           visible={true}
           height="80"
@@ -32,12 +37,11 @@ const CategoryTab = () => {
           ariaLabel="hourglass-loading"
           wrapperStyle={{}}
           wrapperClass=""
-          colors={["#306cce", "#72a1ed"]}
+          colors={["#306CCE", "#72A1ED"]}
         />
       </div>
     );
   }
-
   return (
     <div className="p-6">
       <Tabs defaultIndex={tabIndex} onSelect={(index) => setTabindex(index)}>
@@ -57,11 +61,10 @@ const CategoryTab = () => {
           <MapCategory item={Dinner}></MapCategory>
         </TabPanel>
         <TabPanel>
-          <MapCategory item={menu}></MapCategory>
+          <MapCategory item={menu.meals}></MapCategory>
         </TabPanel>
       </Tabs>
     </div>
   );
 };
-
 export default CategoryTab;

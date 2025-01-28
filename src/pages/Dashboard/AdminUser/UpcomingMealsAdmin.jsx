@@ -12,7 +12,7 @@ const UpcomingMealsAdmin = () => {
   // Fetch upcoming meals
   useEffect(() => {
     axiosPublic
-      .get("http://localhost:5000/upcoming")
+      .get("https://hostel-manaegement-server-side.vercel.app/upcoming")
       .then((response) => setUpcomingMeals(response.data))
       .catch((error) => console.error("Error fetching upcoming meals:", error));
   }, []);
@@ -20,26 +20,30 @@ const UpcomingMealsAdmin = () => {
   // Handle Publish Meal
   const handlePublish = (meal) => {
     axiosPublic
-      .post("http://localhost:5000/addMeal", meal) 
-      .then((res) => {
-        console.log(res);
-        Swal.fire("Published!", "The meal has been published successfully.", "success");
-        setUpcomingMeals((prev) => prev.filter((m) => m._id !== meal._id)); 
-      })
-      .catch((error) => console.error("Error publishing meal:", error.message));
-  };
+      .post("https://hostel-manaegement-server-side.vercel.app/addMeal", meal)
+      .then((response) => {
+        console.log(response);
+      if(response.data > 0){
+        Swal.fire(
+          "Published!",
+          "The meal has been published successfully.",
+          "success"
+        );
+        setUpcomingMeals((prev) => prev.filter((m) => m._id !== meal._id));
 
- ;
+      }}).catch((error) => {  
+        console.error("Error publishing meal:", error);
+        Swal.fire("Error!", "Something went wrong while publishing the meal.", "error");
+      });
+    
+  };
 
   return (
     <div>
       <h2 className="text-3xl">Upcoming Meals</h2>
-    <Link to={`/addUpcoming`}>
-      <button className="btn btn-primary my-4">
-        Add Upcoming Meal
-      </button>
-    
-    </Link>
+      <Link to={`/addUpcoming`}>
+        <button className="btn btn-primary my-4">Add Upcoming Meal</button>
+      </Link>
       {/* Add Upcoming Meal Button */}
 
       {/* Table for Upcoming Meals */}
@@ -83,14 +87,18 @@ const UpcomingMealsAdmin = () => {
               placeholder="Meal Title"
               className="input input-bordered w-full my-2"
               value={newMeal.title}
-              onChange={(e) => setNewMeal({ ...newMeal, title: e.target.value })}
+              onChange={(e) =>
+                setNewMeal({ ...newMeal, title: e.target.value })
+              }
             />
             <input
               type="number"
               placeholder="Likes"
               className="input input-bordered w-full my-2"
               value={newMeal.likes}
-              onChange={(e) => setNewMeal({ ...newMeal, likes: parseInt(e.target.value) })}
+              onChange={(e) =>
+                setNewMeal({ ...newMeal, likes: parseInt(e.target.value) })
+              }
             />
             <div className="modal-action">
               <button className="btn" onClick={() => setShowModal(false)}>

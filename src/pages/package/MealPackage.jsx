@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 const MealPackage = () => {
  
          const PackageFetch = async () => {
-            const response = await fetch('http://localhost:5000/package')
+            const response = await fetch('https://hostel-manaegement-server-side.vercel.app/package')
             return response.json()
          }
          const {data :MealPackage = [], isLoading } = useQuery({
