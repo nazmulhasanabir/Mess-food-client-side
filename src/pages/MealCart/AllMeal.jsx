@@ -12,7 +12,7 @@ const AllMeal = () => {
   // Fetch meals with filters and search
   const fetchMeals = async ({ pageParam = 1 }) => {
     const response = await fetch(
-      `http://localhost:5000/meals?search=${searchTerm}&category=${category}&priceRange=${priceRange}&page=${pageParam}`
+      `https://hostel-manaegement-server-side.vercel.app/meals?search=${searchTerm}&category=${category}&priceRange=${priceRange}&page=${pageParam}`
     );
     return response.json();
   };

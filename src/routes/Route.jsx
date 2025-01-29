@@ -41,7 +41,7 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(`http://localhost:5000/meals/${params.id}`),
+          fetch(`https://hostel-manaegement-server-side.vercel.app/meals/${params.id}`),
       },
       {
         path: "/usermeal",
@@ -59,7 +59,7 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(`http://localhost:5000/package/${params.price}`),
+          fetch(`https://hostel-manaegement-server-side.vercel.app/package/${params.price}`),
       },
 
       {

@@ -7,6 +7,7 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../../Providers/AuthProviders";
 import UseAxiosPublic from "../axios/UseAxiosPublic";
 import axios from "axios";
+import SocialLogin from "../social/SocialLogin";
 
 const Register = () => {
   const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
@@ -38,13 +39,13 @@ const Register = () => {
             badge: "Bronze",
           };
           const res = await axiosPublic.post("/users", userInfo);
-          console.log(res.data);
+        //   console.log(res.data);
         };
         dataUpload(imageResponse.data.data.display_url);
 
         createUser(data.email, data.password)
           .then((res) => {
-            console.log(res);
+            // console.log(res);
             UpdateUserProfile(data.name, imageResponse.data.data.display_url)
               .then((res) => {
                 Swal.fire({
@@ -98,7 +99,7 @@ const Register = () => {
             </Helmet> */}
       <div>
         <div className="w-full h-full flex justify-center items-center">
-          <div className="card bg-base-100 w-full max-w-lg rounded-none shrink-0 shadow-md border border-gray-100 p-5">
+          <div className="card bg-base-100 w-full max-w-lg my-10 shrink-0 shadow-lg border border-gray-300 p-5">
             <h2 className="text-center text-2xl font-semibold py-5">
               Register Here
             </h2>
@@ -115,7 +116,7 @@ const Register = () => {
                   type="text"
                   placeholder="Your Name"
                   {...register("name", { required: "Name is required" })}
-                  className="placeholder:text-gray-900 input w-full rounded-none outline-none border-none bg-gray-100"
+                  className="placeholder:text-gray-900 input w-full  input-bordered  bg-gray-100"
                 />
                 <p className="text-red-500">{errors.name?.message}</p>
               </div>
@@ -127,7 +128,7 @@ const Register = () => {
                   type="email"
                   placeholder="Email"
                   {...register("email", { required: "Email is required" })}
-                  className="placeholder:text-gray-900 input w-full rounded-none outline-none border-none bg-gray-100"
+                  className="placeholder:text-gray-900 input w-full  input-bordered  bg-gray-100"
                 />
                 <p className="text-red-500">{errors.email?.message}</p>
               </div>
@@ -135,7 +136,7 @@ const Register = () => {
                 <input
                   {...register("image", { required: true })}
                   type="file"
-                  className="file-input file-input-bordered w-full max-w-xs"
+                  className="file-input file-input-primary file-input-bordered w-full"
                 />
                 {errors.image && (
                   <p className="text-red-500">Image is required</p>
@@ -157,7 +158,7 @@ const Register = () => {
                     })}
                     type={showPassword ? "text" : "password"}
                     placeholder="password"
-                    className="placeholder:text-gray-900 input w-full rounded-none outline-none border-none bg-gray-100"
+                    className="placeholder:text-gray-900 input w-full  input-bordered  bg-gray-100"
                   />
 
                   <span
@@ -178,7 +179,7 @@ const Register = () => {
                 </a>
               </label>
               <div className="form-control mt-4">
-                <button className="btn btn-warning rounded-none w-full">
+                <button className="btn btn-primary  w-full">
                   Register
                 </button>
               </div>
@@ -186,15 +187,15 @@ const Register = () => {
                 <p className="text-center">
                   Already Have An Account ?{" "}
                   <Link
-                    to={"/login"}
-                    className="text-warning font-semibold hover:underline"
+                    to={"/signIn"}
+                    className="text-primary font-semibold hover:underline"
                   >
                     Login
                   </Link>
                 </p>
               </div>
-              <div className="divider">OR</div>
             </form>
+            <SocialLogin></SocialLogin>
           </div>
         </div>
       </div>

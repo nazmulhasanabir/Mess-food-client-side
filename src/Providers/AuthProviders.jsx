@@ -84,7 +84,7 @@ const AuthProviders = ({ children }) => {
             `/usersMail?email=${currentUser?.email}`
           );
           setUser(res.data);
-          console.log(res.data);
+        //   console.log(res.data);
           // console.log(user);
           const userData = { email: res.data.email };
 
@@ -92,7 +92,7 @@ const AuthProviders = ({ children }) => {
 
           const tokenRes = await axiosPublic.post("/jwt", userData);
           if (tokenRes.data.token) {
-            console.log(tokenRes.data.token);
+            // console.log(tokenRes.data.token);
             localStorage.setItem("access-token", tokenRes.data.token);
             setLoading(false);
           }

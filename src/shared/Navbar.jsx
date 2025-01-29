@@ -6,13 +6,12 @@ import Swal from "sweetalert2";
 import { Hourglass } from "react-loader-spinner";
 import { useQuery } from "@tanstack/react-query";
 
-
 const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
-console.log(user)
+  // console.log(user)
   const [badge, setBadge] = useState("");
   const handleLogout = () => {
-    console.log("Logging out...");
+    // console.log("Logging out...");
     logout()
       .then(() => {
         Swal.fire({
@@ -21,12 +20,16 @@ console.log(user)
           text: "Sign-Out successful!",
         });
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        // console.log(error)
+      });
   };
   useEffect(() => {
     const fetchBadge = () => {
       if (user?.email) {
-        fetch(`http://localhost:5000/get-badge/${user.email}`)
+        fetch(
+          `https://hostel-manaegement-server-side.vercel.app/get-badge/${user.email}`
+        )
           .then((res) => res.json())
           .then((data) => {
             if (data.success) {
@@ -40,9 +43,9 @@ console.log(user)
     };
 
     fetchBadge();
-    const interval = setInterval(fetchBadge, 5000); 
+    const interval = setInterval(fetchBadge, 5000);
 
-    return () => clearInterval(interval); 
+    return () => clearInterval(interval);
   }, [user?.email]);
   if (badge === "Bronze") {
     <div className="badge bg-gradient-to-r from-amber-600 to-amber-700 text-white font-bold py-2 px-4 rounded-full shadow-lg">
@@ -178,11 +181,9 @@ console.log(user)
                       <p className="text-white lg:block">{user.displayName}</p>
                       <p className="text-white lg:block">{user.email}</p>
                     </div>
-                    <p className="badge badge-success mt-1">
-                      {badge}
-                    </p>
+                    <p className="badge badge-success mt-1">{badge}</p>
                     <div className="flex justify-center  bg-black rounded-2xl p-3">
-                      {user.role === 'admin' ? (
+                      {user.role === "admin" ? (
                         <div className="flex flex-col justify-center items-center gap-2">
                           <Link to={"/dashboard"}>
                             <button className="dark:bg-red-600    rounded-xl text-white ">

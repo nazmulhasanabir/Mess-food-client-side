@@ -13,7 +13,7 @@ const SocialLogin = () => {
     const handleGoogle = () => {
         googleLogin()
         .then(result => {
-            console.log(result.user)
+            // console.log(result.user)
             const userInfo = {
                 email:result.user?.email,
                 name:result.user?.displayName,
@@ -37,9 +37,9 @@ const SocialLogin = () => {
         })
     }
     return (
-        <div className="p-8">
+        <div className="p-2 ">
                     <div className="divider"></div>
-                    <div>
+                    <div className="w-fit mx-auto">
                         <button onClick={handleGoogle} className="btn">
                         <FaGoogle className="mr-2"></FaGoogle>
                             Google

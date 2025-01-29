@@ -54,7 +54,7 @@ const CheckOutForm = () => {
     });
 
     if (error) {
-      console.log("error", error);
+      // console.log("error", error);
       setError(error.message);
       return;
     }

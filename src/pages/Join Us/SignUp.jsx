@@ -39,7 +39,7 @@ const SignUp = () => {
 
         // Create user in Firebase Auth
         const result = await createUser(data.email, data.password);
-        console.log(result);
+        // console.log(result);
         await UpdateUserProfile({
           displayName: data.name,
           photoURL: imageUrl,

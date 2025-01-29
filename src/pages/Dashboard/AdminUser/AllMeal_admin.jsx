@@ -11,7 +11,7 @@ const AllMeal_admin = () => {
   // Fetch meals with sorting
   const fetchMeals = async (sortBy = "") => {
     try {
-      const { data } = await axios.get(`http://localhost:5000/meals`, {
+      const { data } = await axios.get(`https://hostel-manaegement-server-side.vercel.app/meals`, {
         params: { sortBy },
       });
       setMeals(data.meals);
@@ -40,7 +40,7 @@ const AllMeal_admin = () => {
    
     if (confirmDelete.isConfirmed) {
       try {
-        await axios.delete(`http://localhost:5000/meals/${_id}`);
+        await axios.delete(`https://hostel-manaegement-server-side.vercel.app/meals/${_id}`);
         setMeals((prevMeals) => prevMeals.filter((meal) => meal._id !== _id));
 
         // Show success message after deletion
@@ -70,7 +70,7 @@ const AllMeal_admin = () => {
   const handleUpdate = async (mealData) => {
     try {
       await axios.patch(
-        `http://localhost:5000/meals/${mealData._id}`,
+        `https://hostel-manaegement-server-side.vercel.app/meals/${mealData._id}`,
         mealData // Send updated meal data
       );
     
