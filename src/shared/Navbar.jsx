@@ -5,14 +5,14 @@ import { AuthContext } from "../Providers/AuthProviders";
 import Swal from "sweetalert2";
 import { Hourglass } from "react-loader-spinner";
 import { useQuery } from "@tanstack/react-query";
-import useAdmin from "../pages/Dashboard/useAdmin";
+
 
 const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
-  const [isAdmin] = useAdmin();
+console.log(user)
   const [badge, setBadge] = useState("");
-
   const handleLogout = () => {
+    console.log("Logging out...");
     logout()
       .then(() => {
         Swal.fire({
@@ -26,7 +26,7 @@ const Navbar = () => {
   useEffect(() => {
     const fetchBadge = () => {
       if (user?.email) {
-        fetch(`https://hostel-manaegement-server-side.vercel.app/get-badge/${user.email}`)
+        fetch(`http://localhost:5000/get-badge/${user.email}`)
           .then((res) => res.json())
           .then((data) => {
             if (data.success) {
@@ -45,19 +45,19 @@ const Navbar = () => {
     return () => clearInterval(interval); 
   }, [user?.email]);
   if (badge === "Bronze") {
-    <div class="badge bg-gradient-to-r from-amber-600 to-amber-700 text-white font-bold py-2 px-4 rounded-full shadow-lg">
+    <div className="badge bg-gradient-to-r from-amber-600 to-amber-700 text-white font-bold py-2 px-4 rounded-full shadow-lg">
       Bronze
     </div>;
   } else if (badge === "Silver") {
-    <div class="badge bg-gradient-to-r from-gray-300 to-gray-500 text-white font-bold py-2 px-4 rounded-full shadow-lg">
+    <div className="badge bg-gradient-to-r from-gray-300 to-gray-500 text-white font-bold py-2 px-4 rounded-full shadow-lg">
       Silver
     </div>;
   } else if (badge === "Gold") {
-    <div class="badge bg-gradient-to-r from-yellow-400 to-yellow-500 text-white font-bold py-2 px-4 rounded-full shadow-lg">
+    <div className="badge bg-gradient-to-r from-yellow-400 to-yellow-500 text-white font-bold py-2 px-4 rounded-full shadow-lg">
       Gold
     </div>;
   } else {
-    <div class="badge bg-gradient-to-r from-gray-400 to-gray-200 text-white font-bold py-2 px-4 rounded-full shadow-lg">
+    <div className="badge bg-gradient-to-r from-gray-400 to-gray-200 text-white font-bold py-2 px-4 rounded-full shadow-lg">
       Platinum
     </div>;
   }
@@ -137,7 +137,7 @@ const Navbar = () => {
             <Link className="/">
               <div className="flex items-center">
                 <img src={logo} className="rounded-full  w-16 h-16" />
-                <a className="btn btn-ghost text-xl">Mess Food</a>
+                <p className="btn btn-ghost text-xl">Mess Food</p>
               </div>
             </Link>
           </div>
@@ -151,7 +151,7 @@ const Navbar = () => {
                   <div className="group relative w-12 h-12 z-10 ">
                     <img
                       className="w-12 h-12 rounded-full"
-                      src={user.photoURL}
+                      src={user?.photoURL}
                     />
                     <div className="absolute right-0 top-14 hidden w-max px-2 py-1  text-sm text-white bg-gray-800 rounded-md group-hover:block">
                       {user.displayName}
@@ -171,7 +171,7 @@ const Navbar = () => {
                   <div className="flex items-center  flex-col ">
                     <img
                       className="w-9 h-9 rounded-full"
-                      src={user.photoURL}
+                      src={user?.photoURL}
                       alt=""
                     />
                     <div className="text-xs text-center">
@@ -182,7 +182,7 @@ const Navbar = () => {
                       {badge}
                     </p>
                     <div className="flex justify-center  bg-black rounded-2xl p-3">
-                      {isAdmin ? (
+                      {user.role === 'admin' ? (
                         <div className="flex flex-col justify-center items-center gap-2">
                           <Link to={"/dashboard"}>
                             <button className="dark:bg-red-600    rounded-xl text-white ">

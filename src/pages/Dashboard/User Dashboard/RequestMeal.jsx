@@ -13,7 +13,7 @@ const RequestMeal = () => {
   // Fetch meal requests
   useEffect(() => {
     axiosPublic
-      .get(`https://hostel-manaegement-server-side.vercel.app/mealRequest?email=${user.email}`)
+      .get(`http://localhost:5000/mealRequest?email=${user.email}`)
       .then((res) => {
         setRequestMeal(res.data);
       });
@@ -31,7 +31,7 @@ const RequestMeal = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`https://hostel-manaegement-server-side.vercel.app/mealRequest/${id}`, {
+        fetch(`http://localhost:5000/mealRequest/${id}`, {
           method: "DELETE",
         })
           .then((res) => res.json())

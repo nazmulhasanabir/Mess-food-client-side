@@ -7,7 +7,7 @@ import { Hourglass } from "react-loader-spinner";
 const CategoryTab = () => {
   const fetchMeals = async () => {
     try {
-      const response = await fetch("https://hostel-manaegement-server-side.vercel.app/meals");
+      const response = await fetch("http://localhost:5000/meals");
       const data = await response.json();
       return data;
       

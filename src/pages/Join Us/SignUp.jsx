@@ -5,6 +5,10 @@ import { AuthContext } from "../../Providers/AuthProviders";
 import Swal from "sweetalert2";
 import UseAxiosPublic from "../axios/UseAxiosPublic";
 import SocialLogin from "../social/SocialLogin";
+import axios from "axios";
+
+const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
+const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 
 const SignUp = () => {
   const { createUser, UpdateUserProfile } = useContext(AuthContext);
@@ -21,43 +25,49 @@ const SignUp = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    console.log(data);
     try {
-      // Create user with email & password
-      const result = await createUser(data.email, data.password);
-      const logUser = result.user;
-
-      // Update user profile with name and a default or empty photoURL
-      await UpdateUserProfile({
-        displayName: data.name,
-        photoURL: data.image, // Set to a default image URL or leave empty
+      // Upload image to ImgBB
+      // const formData = new FormData();
+      // formData.append("image", data.image[0]);
+      const imageFile = { image: data.image[0] };
+      const imageResponse = await axios.post(image_hosting_api, imageFile, {
+        headers: { "Content-Type": "multipart/form-data" },
       });
 
-      // Prepare user info for saving to the database
-      const userInfo = {
-        name: data.name,
-        email: data.email,
-        photoURL: data.image, // Set to a default image URL or leave empty
-        badge: badge,
-      };
-      console.log(userInfo);
-      // Save user info to the database
-      // await axiosPublic.post("/users", userInfo);
+      if (imageResponse.data.success) {
+        const imageUrl = imageResponse.data.data.url;
 
-      // Reset the form
-      reset();
+        // Create user in Firebase Auth
+        const result = await createUser(data.email, data.password);
+        console.log(result);
+        await UpdateUserProfile({
+          displayName: data.name,
+          photoURL: imageUrl,
+        });
+        // Save user info in the database
+        const userInfo = {
+          name: data.name,
+          email: data.email,
+          photoURL: imageUrl,
+          badge: badge,
+        };
 
-      // Show success message
-      Swal.fire({
-        position: "top-center",
-        icon: "success",
-        title: "User Created Successfully",
-        showConfirmButton: false,
-        timer: 1500,
-      });
+        await axiosPublic.post("/users", userInfo);
 
-      // Navigate to the home page
-      navigate("/");
+        //reset();
+
+        Swal.fire({
+          // position: "top-center",
+          icon: "success",
+          title: "User Created Successfully",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+
+        //navigate("/");
+      } else {
+        throw new Error("Image upload failed");
+      }
     } catch (err) {
       setError(err.message);
     }
@@ -80,7 +90,9 @@ const SignUp = () => {
                   {...register("name", { required: true })}
                   className="input input-bordered"
                 />
-                {errors.name && <span className="text-red-500">Name is required</span>}
+                {errors.name && (
+                  <span className="text-red-500">Name is required</span>
+                )}
               </div>
 
               {/* Email */}
@@ -94,7 +106,9 @@ const SignUp = () => {
                   {...register("email", { required: true })}
                   className="input input-bordered"
                 />
-                {errors.email && <span className="text-red-500">Email is required</span>}
+                {errors.email && (
+                  <span className="text-red-500">Email is required</span>
+                )}
               </div>
 
               {/* Password */}
@@ -113,21 +127,37 @@ const SignUp = () => {
                   className="input input-bordered"
                 />
                 {errors.password?.type === "minLength" && (
-                  <p className="text-red-500">Password must be at least 6 characters</p>
+                  <p className="text-red-500">
+                    Password must be at least 6 characters
+                  </p>
                 )}
                 {errors.password?.type === "pattern" && (
                   <p className="text-red-500">
-                    Password must include uppercase, lowercase, number, and special character
+                    Password must include uppercase, lowercase, number, and
+                    special character
                   </p>
                 )}
               </div>
-                  {/* image section */}
-                  <div className="form-control w-full my-6">
-                  <input {...register('image',{required:true} )}  type="file" className="file-input file-input-bordered w-full max-w-xs" />
-                  </div>
+
+              {/* Image Upload */}
+              <div className="form-control w-full my-6">
+                <input
+                  {...register("image", { required: true })}
+                  type="file"
+                  className="file-input file-input-bordered w-full max-w-xs"
+                />
+                {errors.image && (
+                  <p className="text-red-500">Image is required</p>
+                )}
+              </div>
+
               {/* Submit Button */}
               <div className="form-control mt-6">
-                <input className="btn btn-primary" type="submit" value="Sign Up" />
+                <input
+                  className="btn btn-primary"
+                  type="submit"
+                  value="Sign Up"
+                />
               </div>
 
               {/* Link to Sign In Page */}

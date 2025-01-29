@@ -61,7 +61,7 @@ const PaymentHistory = () => {
                     {index + 1}
                   </td>
                   <td className="px-4 py-2 border border-gray-300 text-center">
-                    ${Number(item.packPrice).toFixed(2)}
+                    ${Number(item.price).toFixed(2)}
                   </td>
                   <td className="px-4 py-2 border border-gray-300 text-center">
                     {item.transactionId}

@@ -10,7 +10,7 @@ const AllReview = () => {
   // Fetch all reviews
   const fetchReviews = async () => {
     try {
-      const { data } = await axios.get("https://hostel-manaegement-server-side.vercel.app/review");
+      const { data } = await axios.get("http://localhost:5000/review");
       setReviews(data);
     } catch (error) {
       console.error("Error fetching reviews:", error);
@@ -30,7 +30,7 @@ const AllReview = () => {
     
     if (confirmDelete.isConfirmed) {
       try {
-        await axios.delete(`https://hostel-manaegement-server-side.vercel.app/reviews/${id}`);
+        await axios.delete(`http://localhost:5000/reviews/${id}`);
         setReviews((prevReviews) => prevReviews.filter((review) => review._id !== id));
          Swal.fire({
                   title: "Deleted!",

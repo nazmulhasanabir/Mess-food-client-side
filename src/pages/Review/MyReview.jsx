@@ -7,7 +7,6 @@ const MyReview = () => {
   const axiosPublic = UseAxiosPublic();
   const { user } = useContext(AuthContext);
   const [reviews, setReviews] = useState([]);
-  console.log(reviews);
   useEffect(() => {
     if (user?.email) {
       axiosPublic
@@ -19,7 +18,7 @@ const MyReview = () => {
           console.error("Error fetching reviews:", err);
         });
     }
-  }, [user, axiosPublic]);
+  }, [user]);
 
 
   const handleEdit = (id, currentReview) => {

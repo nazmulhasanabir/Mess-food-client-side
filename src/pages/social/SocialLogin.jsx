@@ -25,7 +25,7 @@ const SocialLogin = () => {
             .then(res => {
                if(res.data){
                 Swal.fire({
-                    position: "top-center",
+                    // position: "top-center",
                     icon: "success",
                     title: "Google SignIn Success",
                     showConfirmButton: false,

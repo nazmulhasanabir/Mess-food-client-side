@@ -12,7 +12,7 @@ const UpcomingMealsAdmin = () => {
   // Fetch upcoming meals
   useEffect(() => {
     axiosPublic
-      .get("https://hostel-manaegement-server-side.vercel.app/upcoming")
+      .get("http://localhost:5000/upcoming")
       .then((response) => setUpcomingMeals(response.data))
       .catch((error) => console.error("Error fetching upcoming meals:", error));
   }, []);
@@ -20,7 +20,7 @@ const UpcomingMealsAdmin = () => {
   // Handle Publish Meal
   const handlePublish = (meal) => {
     axiosPublic
-      .post("https://hostel-manaegement-server-side.vercel.app/addMeal", meal)
+      .post("http://localhost:5000/addMeal", meal)
       .then((response) => {
         console.log(response);
       if(response.data > 0){

@@ -31,7 +31,7 @@ const CardDetails = () => {
 
   useEffect(() => {
     if (user?.email) {
-      fetch(`https://hostel-manaegement-server-side.vercel.app/get-badge/${user.email}`)
+      fetch(`http://localhost:5000/get-badge/${user.email}`)
         .then((res) => res.json())
         .then((data) => {
           if (data.success) {
@@ -46,11 +46,11 @@ const CardDetails = () => {
 
   useEffect(() => {
     // Fetch like count and reviews for this meal
-    axiosPublic.get(`https://hostel-manaegement-server-side.vercel.app/like?id=${_id}`).then((res) => {
+    axiosPublic.get(`http://localhost:5000/like?id=${_id}`).then((res) => {
       setLike(res.data);
     });
 
-    axiosPublic.get(`https://hostel-manaegement-server-side.vercel.app/review?id=${_id}`).then((res) => {
+    axiosPublic.get(`http://localhost:5000/review?id=${_id}`).then((res) => {
       setReviews(res.data);
     });
 
@@ -75,7 +75,7 @@ const CardDetails = () => {
     };
 
     axiosPublic
-      .post("https://hostel-manaegement-server-side.vercel.app/mealRequest", mealRequest)
+      .post("http://localhost:5000/mealRequest", mealRequest)
       .then((res) => {
         if (res.data.insertedId) {
           Swal.fire("Success", "Meal request submitted successfully!", "success");
@@ -89,7 +89,7 @@ const CardDetails = () => {
 
   const handleLike = (name, id) => {
     axiosPublic.post("/like", { meal_name: name, meal_id: id }).then(() => {
-      axiosPublic.get(`https://hostel-manaegement-server-side.vercel.app/like?id=${id}`).then((res) => {
+      axiosPublic.get(`http://localhost:5000/like?id=${id}`).then((res) => {
         setLike(res.data);
       });
     });

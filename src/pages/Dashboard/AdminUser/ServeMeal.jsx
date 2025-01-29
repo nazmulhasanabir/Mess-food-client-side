@@ -1,28 +1,40 @@
 import { useState, useEffect } from "react";
 import UseAxiosPublic from "../../axios/UseAxiosPublic"; // Custom Axios hook
 import { FaCheckCircle } from "react-icons/fa";
+import UseAxiosSecure from "../../axios/UseAxiosSecure";
 
 const ServeMeal = () => {
   const axiosPublic = UseAxiosPublic();
+  const axiosSecure = UseAxiosSecure();
   const [mealRequests, setMealRequests] = useState([]);
   const [search, setSearch] = useState("");
 
 
+  // useEffect(() => {
+  //   axiosPublic
+  //     .get(`http://localhost:5000/mealRequest?username=${search}`)
+  //     .then((res) => {
+  //       setMealRequests(res.data);
+  //     })
+  //     .catch((err) => {
+  //       console.error("Error fetching meal requests:", err);
+  //     });
+  // }, [search, axiosPublic]);
   useEffect(() => {
-    axiosPublic
-      .get(`https://hostel-manaegement-server-side.vercel.app/mealRequest?username=${search}`)
+    axiosSecure
+      .get(`http://localhost:5000/AllMealRequest`)
       .then((res) => {
         setMealRequests(res.data);
       })
       .catch((err) => {
         console.error("Error fetching meal requests:", err);
       });
-  }, [search, axiosPublic]);
+  }, []);
 
 
   const handleServe = (id) => {
     axiosPublic
-      .put(`https://hostel-manaegement-server-side.vercel.app/mealRequest/serve/${id}`)
+      .put(`http://localhost:5000/mealRequest/serve/${id}`)
       .then((response) => {
         console.log("Meal served:", response.data);
   

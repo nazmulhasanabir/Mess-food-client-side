@@ -38,7 +38,7 @@ const AddReview = () => {
   const onSubmit = (data) => {
     axiosPublic.post("/review", { data, id, name,mail,mealName }).then((res) => {
             Swal.fire({
-              position: "top-center",
+              // position: "top-center",
               icon: "success",
               title: " Review Added Successfully",
               showConfirmButton: false,

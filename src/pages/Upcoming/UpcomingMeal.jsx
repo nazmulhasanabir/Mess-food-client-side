@@ -5,7 +5,7 @@ import { Hourglass } from "react-loader-spinner";
 
 const UpcomingMeal = () => {
     const AllMeal = async () => {
-        const response = await fetch("https://hostel-manaegement-server-side.vercel.app/upcoming");
+        const response = await fetch("http://localhost:5000/upcoming");
         return response.json();
       };
     

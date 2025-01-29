@@ -14,7 +14,7 @@ const AdminDashboard = () => {
             if(res.data.modifiedCount > 0){
                     refetch()
                 Swal.fire({
-                    position: "top-center",
+                    // position: "top-center",
                     icon: "success",
                     title: `${users.name} Has been admin`,
                     showConfirmButton: false,

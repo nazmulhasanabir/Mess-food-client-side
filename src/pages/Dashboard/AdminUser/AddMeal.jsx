@@ -40,7 +40,7 @@ const AddMeal = () => {
 
     try {
       const response = await axios.post(
-        "https://hostel-manaegement-server-side.vercel.app/addMeal",
+        "http://localhost:5000/addMeal",
         mealData
       );
       if (response.data.result.insertedId) {

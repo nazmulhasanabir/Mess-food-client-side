@@ -96,7 +96,7 @@ const CheckOutForm = () => {
           .patch(`/update-badge/${user.email}`, { badge: packages })
           .then(() => {
             Swal.fire({
-              position: "top-center",
+              // position: "top-center",
               icon: "success",
               title: `Your payment is successful! You've earned a ${packages} badge!`,
               showConfirmButton: false,

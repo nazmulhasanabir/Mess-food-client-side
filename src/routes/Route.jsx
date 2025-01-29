@@ -20,6 +20,7 @@ import AllReview from "../pages/Dashboard/AdminUser/AllReview";
 import ServeMeal from "../pages/Dashboard/AdminUser/ServeMeal";
 import UpcomingMealsAdmin from "../pages/Dashboard/AdminUser/UpcomingMealsAdmin";
 import AddUpcoming from "../pages/Dashboard/AdminUser/AddUpcoming";
+import Register from "../pages/Join Us/Register";
 
 
 export const router = createBrowserRouter([
@@ -40,7 +41,7 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(`https://hostel-manaegement-server-side.vercel.app/meals/${params.id}`),
+          fetch(`http://localhost:5000/meals/${params.id}`),
       },
       {
         path: "/usermeal",
@@ -58,13 +59,17 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(`https://hostel-manaegement-server-side.vercel.app/package/${params.price}`),
+          fetch(`http://localhost:5000/package/${params.price}`),
       },
 
       {
         path: "signUp",
-        element: <SignUp></SignUp>,
+        element: <Register></Register>
       },
+      // {
+      //   path: "signUp",
+      //   element: <SignUp></SignUp>,
+      // },
       {
         path: "signIn",
         element: <SignIn></SignIn>,
