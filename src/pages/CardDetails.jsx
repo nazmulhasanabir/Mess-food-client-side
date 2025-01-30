@@ -31,7 +31,9 @@ const CardDetails = () => {
 
   useEffect(() => {
     if (user?.email) {
-      fetch(`https://hostel-manaegement-server-side.vercel.app/get-badge/${user.email}`)
+      fetch(
+        `https://hostel-manaegement-server-side.vercel.app/get-badge/${user.email}`
+      )
         .then((res) => res.json())
         .then((data) => {
           if (data.success) {
@@ -46,37 +48,74 @@ const CardDetails = () => {
 
   useEffect(() => {
     // Fetch like count and reviews for this meal
-    axiosPublic.get(`https://hostel-manaegement-server-side.vercel.app/like?id=${_id}`).then((res) => {
-      setLike(res.data);
-    });
+    axiosPublic
+      .get(`https://hostel-manaegement-server-side.vercel.app/like?id=${_id}`)
+      .then((res) => {
+        setLike(res.data);
+      });
 
-    axiosPublic.get(`https://hostel-manaegement-server-side.vercel.app/review?id=${_id}`).then((res) => {
-      setReviews(res.data);
-    });
+    axiosPublic
+      .get(`https://hostel-manaegement-server-side.vercel.app/review?id=${_id}`)
+      .then((res) => {
+        setReviews(res.data);
+      });
 
     // Check if user has a badge (subscription)
     if (user?.badge) {
       setIsSubscribed(true);
     }
   }, [_id, user?.badge]);
-  const handleMealRequest = (name, like, review, email, id) => {
-    if (!badge) {
-      Swal.fire("Error", "You need a subscription to request a meal.", "error");
-      navigate("/packages"); // Redirect to package purchase page
-      return;
-    }
+  // const handleMealRequest = (name, like, review, email, id) => {
 
+  //   const mealRequest = {
+  //     email: email,
+  //     name: name,
+  //     like,
+  //     review,
+  //     status: "pending",
+  //     id: id,
+  //   };
+
+     
+  //   axiosPublic
+  //     .post(
+  //       "/mealRequest",
+  //       {     email: email,
+  //         name: name,
+  //         like,
+  //         review,
+  //         status: "pending",
+  //         id: id,}
+  //     )
+  //     .then((res) => {
+  //       console.log(res);
+  //       if (res.data.insertedId) {
+  //         Swal.fire(
+  //           "Success",
+  //           "Meal request submitted successfully!",
+  //           "success"
+  //         );
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       Swal.fire("Error", "Failed to submit meal request.", "error");
+  //       console.error("Error requesting meal:", error);
+  //     });
+  // };
+  const handleMealRequest = (name, like, review, email, id) => {
     const mealRequest = {
       email: email,
       name: name,
-      like,
-      review,
+      like: like,
+      review: review,
       status: "pending",
+      id: id,
     };
-
+  
     axiosPublic
-      .post("https://hostel-manaegement-server-side.vercel.app/mealRequest", mealRequest)
+      .post("https://hostel-manaegement-server-side.vercel.app/mealRequest", mealRequest) 
       .then((res) => {
+        console.log(res);
         if (res.data.insertedId) {
           Swal.fire("Success", "Meal request submitted successfully!", "success");
         }
@@ -86,23 +125,27 @@ const CardDetails = () => {
         console.error("Error requesting meal:", error);
       });
   };
-
+  
   const handleLike = (name, id) => {
     axiosPublic.post("/like", { meal_name: name, meal_id: id }).then(() => {
-      axiosPublic.get(`https://hostel-manaegement-server-side.vercel.app/like?id=${id}`).then((res) => {
-        setLike(res.data);
-      });
+      axiosPublic
+        .get(`https://hostel-manaegement-server-side.vercel.app/like?id=${id}`)
+        .then((res) => {
+          setLike(res.data);
+        });
     });
   };
 
   const subscription = () => {
     if (badge === "Gold") {
       return true;
-    }else if (badge === "Silver") {
+    } else if (badge === "Silver") {
       return true;
-  }else if (badge === "Platinum") {
-      return true;}
-      else {false}
+    } else if (badge === "Platinum") {
+      return true;
+    } else {
+      return false;
+    }
   };
   return (
     <div>
@@ -126,9 +169,15 @@ const CardDetails = () => {
 
             <button
               onClick={() =>
-                handleMealRequest(meal_name, like.length, reviewes.length, user.email, _id)
+                handleMealRequest(
+                  meal_name,
+                  like.length,
+                  reviewes.length,
+                  user.email,
+                  _id
+                )
               }
-              className={`btn ${!subscription ? "btn-primary" : "btn-disabled"}`}
+              className={`btn ${subscription ? "btn-primary" : "btn-disabled"}`}
               disabled={!subscription}
             >
               Request For Meal
@@ -148,7 +197,7 @@ const CardDetails = () => {
 
             {/* Show badge info */}
             <div className="mt-4">
-              {!subscription ? (
+              {subscription ? (
                 <span className=""></span>
               ) : (
                 <span className="badge badge-warning">No Subscription</span>
@@ -160,7 +209,10 @@ const CardDetails = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 w-10/12 mx-auto mt-9">
         {reviewes.map((review) => (
-          <div key={review._id} className="card bg-blue-400 text-white w-52 shadow-xl">
+          <div
+            key={review._id}
+            className="card bg-blue-400 text-white w-52 shadow-xl"
+          >
             <figure>
               <img
                 src={review.photoURL}
@@ -185,5 +237,4 @@ const CardDetails = () => {
     </div>
   );
 };
-
 export default CardDetails;
