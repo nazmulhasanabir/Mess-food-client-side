@@ -160,4 +160,6 @@ For any queries, feel free to reach out:
 📧 Email: hasanabir617@gmail.com
 👨‍💻 GitHub: nazmul-hasan-abir
 
+📧 Admin Email: nazmulhasanabir2025@gmail.com
+💳 Admin Pass: Abir2@
 
