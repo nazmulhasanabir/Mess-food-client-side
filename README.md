@@ -5,10 +5,11 @@
 **Mess Meals** is a **Hostel Management System** designed for university hostels. It enables students to log in, view meals, post reviews, and request meals, while administrators can efficiently manage meal data, reviews, and student information.  
 Built using the **MERN stack** (MongoDB, Express.js, React.js, Node.js), this system ensures streamlined operations and enhances the overall student experience in university hostels.
 
-![Mess Meals](https://i.ibb.co.com/5g6KBJFh/image.png)  
+![Mess Meals](https://i.ibb.co.com/5g6KBJFh/image.png)
+
 
 ## 🌐 Live Demo  
-🔗 **Live Site:** [FEEDBACKER](https://hostel-meal-management-ec2af.web.app/)
+🔗 **Live Site:** [MEAL MANAGEMENT](https://hostel-meal-management-ec2af.web.app/)
 
 ---
 
