@@ -121,11 +121,11 @@ const AllMeal = () => {
                 <p className="text-lg ">{meal.description}</p>
 
                 <div className="card-actions justify-end">
-                  <Link to={`/meals/${meal._id}`}>
+                  {/* <Link to={`/meals/${meal._id}`}>
                     <button className="btn btn-outline  border-0 border-b-4 border-r-4  mt-4">
                       See Details
                     </button>
-                  </Link>
+                  </Link> */}
                 </div>
               </div>
             </div>
