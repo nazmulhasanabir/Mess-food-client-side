@@ -108,33 +108,6 @@ const AllMeal = () => {
         </select>
       </div>
 
-      {/* Infinite Scroll & Meal List */}
-      {/* <InfiniteScroll
-        dataLength={data?.pages?.length || 0}
-        next={fetchNextPage}
-        hasMore={hasNextPage}
-        loader={
-          <div className="flex justify-center">
-            <Hourglass
-              visible={true}
-              height="40"
-              width="40"
-              ariaLabel="hourglass-loading"
-              wrapperStyle={{}}
-              wrapperClass=""
-              colors={["#306cce", "#72a1ed"]}
-            />
-          </div>
-        }
-      >
-        <div className="grid md:grid-cols-3 gap-10">
-          {data?.pages.map((page) =>
-            page.meals.map((items) => (
-              <MealCart key={items.id} items={items}></MealCart>
-            ))
-          )}
-        </div>
-      </InfiniteScroll> */}
       <div className="grid grid-cols-1  gap-2 lg:grid-cols-3 lg:gap-5 w-11/12 mx-auto">
         {meals.map((meal) => (
           <div>
@@ -144,7 +117,7 @@ const AllMeal = () => {
               </figure>
               <p className="text-xl font-semibold">${meal.price}</p>
               <div className="card-body text-center">
-                {/* <h2 className="font-bold text-xl">{meal.title}</h2> */}
+                <h2 className="font-bold text-xl">{meal.title}</h2>
                 <p className="text-lg ">{meal.description}</p>
 
                 <div className="card-actions justify-end">
