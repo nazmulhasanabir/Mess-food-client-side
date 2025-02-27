@@ -69,13 +69,13 @@ console.log(CardDetails);
       });
   };
 
-  const handleLike = (name, id) => {
-    axiosPublic.post("/like", { title: name, meal_id: id }).then(() => {
-      axiosPublic.get(`http://localhost:5000/like?id=${id}`).then((res) => {
-        setLike(res.data);
-      });
-    });
-  };
+  // const handleLike = (name, id) => {
+  //   axiosPublic.post("/like", { title: name, meal_id: id }).then(() => {
+  //     axiosPublic.get(`http://localhost:5000/like?id=${id}`).then((res) => {
+  //       setLike(res.data);
+  //     });
+  //   });
+  // };
 
   const subscription = () => {
     return badge !== "Bronze";
