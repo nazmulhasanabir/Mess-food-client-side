@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import UseAxiosSecure from '../axios/UseAxiosSecure';
 import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 
 const AdminDashboard = () => {
     const axiosSecure = UseAxiosSecure();
+    const [searchTerm, setSearchTerm] = useState("");
     const handleMakeAdmin = users => {
         axiosSecure.patch(`/users/admin/${users._id}`)
         .then(res => {
@@ -23,30 +24,35 @@ const AdminDashboard = () => {
             }
         })
     }
-    const {refetch,data: users = [] } = useQuery({
-        queryKey: ["users"],
-        queryFn: async () => {
-          const res = await axiosSecure.get("/users", {
-            headers:{
-                authorization : `Bearer ${localStorage.getItem('access-token')}`
-            }
-          })
+    const { refetch, data: users = [] } = useQuery({
+      queryKey: ["users", searchTerm], 
+      queryFn: async () => {
+          const res = await axiosSecure.get(`/users?search=${searchTerm}`, {
+              headers: {
+                  authorization: `Bearer ${localStorage.getItem("access-token")}`,
+              },
+          });
           return res.data;
-        },
-      });
+      },
+  });
+
+  
+  const handleSearch = (e) => {
+      setSearchTerm(e.target.value);
+      refetch(); 
+  };
+
     return (
         <div>
                <div>
-        <Link to={'/'}>
-        <button className="btn btn-lg">home</button>
-        </Link>
+        
       <div className="flex justify-evenly my-4">
         <h2 className="text-3xl">All Users</h2>
         <h2 className="text-3xl">Total Users{users.length}</h2>
       </div>
      <div className="w-6/12 mx-auto">
      <label className="input input-bordered flex items-center gap-2">
-        <input type="text" className="grow" placeholder="Search" />
+        <input type="text" className="grow"  onChange={handleSearch} placeholder="Search" />
       </label>
      </div>
       <div className="overflow-x-auto">

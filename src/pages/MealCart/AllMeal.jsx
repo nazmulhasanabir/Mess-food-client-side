@@ -1,50 +1,64 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { Hourglass } from "react-loader-spinner";
 import MealCart from "./MealCart";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { Link, useLoaderData } from "react-router-dom";
+import { FaStar } from "react-icons/fa";
 
 const AllMeal = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [category, setCategory] = useState("");
   const [priceRange, setPriceRange] = useState("");
+  const meal = useLoaderData();
+  const [meals, setMeals] = useState(meal);
+
+  useEffect(() => {
+    fetch(`http://localhost:5000/meals?search=${searchTerm}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setMeals(data);
+      });
+  }, [searchTerm, category]);
+
+  console.log(meals);
 
   // Fetch meals with filters and search
-  const fetchMeals = async ({ pageParam = 1 }) => {
-    const response = await fetch(
-      `https://hostel-manaegement-server-side.vercel.app/meals?search=${searchTerm}&category=${category}&priceRange=${priceRange}&page=${pageParam}`
-    );
-    return response.json();
-  };
+  // const fetchMeals = async ({ pageParam = 1 }) => {
+  //   const response = await fetch(
+  //     `http://localhost:5000/meals?search=${searchTerm}&category=${category}&priceRange=${priceRange}&page=${pageParam}`
+  //   );
+  //   return response.json();
+  // };
 
-  const { data, isLoading, hasNextPage, fetchNextPage } = useInfiniteQuery({
-    queryKey: ["meals", searchTerm, category, priceRange],
-    queryFn: fetchMeals,
-    getNextPageParam: (lastPage) => (lastPage.hasMore ? lastPage.page + 1 : false),
-  });
+  // const { data, isLoading, hasNextPage, fetchNextPage } = useInfiniteQuery({
+  //   queryKey: ["meals", searchTerm, category, priceRange],
+  //   queryFn: fetchMeals,
+  //   getNextPageParam: (lastPage) => (lastPage.hasMore ? lastPage.page + 1 : false),
+  // });
 
-  if (isLoading) {
-    return (
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100vh",
-        }}
-      >
-        <Hourglass
-          visible={true}
-          height="80"
-          width="80"
-          ariaLabel="hourglass-loading"
-          wrapperStyle={{}}
-          wrapperClass=""
-          colors={["#306cce", "#72a1ed"]}
-        />
-      </div>
-    );
-  }
+  // if (isLoading) {
+  //   return (
+  //     <div
+  //       style={{
+  //         display: "flex",
+  //         justifyContent: "center",
+  //         alignItems: "center",
+  //         height: "100vh",
+  //       }}
+  //     >
+  //       <Hourglass
+  //         visible={true}
+  //         height="80"
+  //         width="80"
+  //         ariaLabel="hourglass-loading"
+  //         wrapperStyle={{}}
+  //         wrapperClass=""
+  //         colors={["#306cce", "#72a1ed"]}
+  //       />
+  //     </div>
+  //   );
+  // }
 
   return (
     <div>
@@ -95,7 +109,7 @@ const AllMeal = () => {
       </div>
 
       {/* Infinite Scroll & Meal List */}
-      <InfiniteScroll
+      {/* <InfiniteScroll
         dataLength={data?.pages?.length || 0}
         next={fetchNextPage}
         hasMore={hasNextPage}
@@ -120,7 +134,31 @@ const AllMeal = () => {
             ))
           )}
         </div>
-      </InfiniteScroll>
+      </InfiniteScroll> */}
+      <div className="grid grid-cols-1  gap-2 lg:grid-cols-3 lg:gap-5 w-11/12 mx-auto">
+        {meals.map((meal) => (
+          <div>
+            <div className="card card-compact bg-base-100 w-96 shadow-xl">
+              <figure>
+                <img src={meal.image} alt="Shoes" />
+              </figure>
+              <p className="text-xl font-semibold">${meal.price}</p>
+              <div className="card-body text-center">
+                <h2 className="font-bold text-xl">{meal.title}</h2>
+                <p className="text-lg ">{meal.description}</p>
+
+                <div className="card-actions justify-end">
+                  <Link to={`/meals/${meal._id}`}>
+                    <button className="btn btn-outline  border-0 border-b-4 border-r-4  mt-4">
+                      See Details
+                    </button>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

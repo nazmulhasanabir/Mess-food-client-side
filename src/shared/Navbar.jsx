@@ -8,7 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 
 const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
-  // console.log(user)
+
   const [badge, setBadge] = useState("");
   const handleLogout = () => {
     // console.log("Logging out...");
@@ -27,9 +27,7 @@ const Navbar = () => {
   useEffect(() => {
     const fetchBadge = () => {
       if (user?.email) {
-        fetch(
-          `https://hostel-manaegement-server-side.vercel.app/get-badge/${user.email}`
-        )
+        fetch(`http://localhost:5000/get-badge/${user.email}`)
           .then((res) => res.json())
           .then((data) => {
             if (data.success) {
@@ -68,46 +66,45 @@ const Navbar = () => {
   {
     const food = (
       <>
-        <Link to={"/"}>
-          <li>Home</li>
-        </Link>
-        <Link to={"/usermeal"}>
-          <li>Meals</li>
-        </Link>
-        <Link to={"/upcoming"}>
-          <li>Upcoming Meals</li>
-        </Link>
         {user ? (
-          <></>
+          <>
+            <Link to={"/"}>
+              <li>Home</li>
+            </Link>
+            <Link to={"/usermeal"}>
+              <li>Meals</li>
+            </Link>
+            <Link to={"/upcoming"}>
+              <li>Upcoming Meals</li>
+            </Link>
+            <Link to={"/about"}>
+              <li>About Us</li>
+            </Link>
+            <Link to={"/find"}>
+              <li>Find Us</li>
+            </Link>
+          </>
         ) : (
           <>
-            {/* <Link to={"/signUp"}>
-            <li>Join Us</li>
-          </Link> */}
+            <Link to={"/"}>
+              <li>Home</li>
+            </Link>
+            <Link to={"/usermeal"}>
+              <li>Meals</li>
+            </Link>
+            <Link to={"/upcoming"}>
+              <li>Upcoming Meals</li>
+            </Link>
+            <Link to={"/about"}>
+              <li>About Us</li>
+            </Link>
           </>
         )}
-        <div className="indicator">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
-            />
-          </svg>
-          <span className="badge badge-xs badge-primary indicator-item"></span>
-        </div>
       </>
     );
     return (
-      <div>
-        <div className="navbar bg-base-100  bg-opacity-60  text-black font-semibold max-w-screen-xl mx-auto">
+      <div className="sticky top-0 z-50">
+        <div className="navbar bg-red-700 text-white font-bold px-10 ">
           <div className="navbar-start">
             <div className="dropdown">
               <div
@@ -157,7 +154,7 @@ const Navbar = () => {
                       src={user?.photoURL}
                     />
                     <div className="absolute right-0 top-14 hidden w-max px-2 py-1  text-sm text-white bg-gray-800 rounded-md group-hover:block">
-                      {user.displayName}
+                      {user.name}
                     </div>
                   </div>
                 ) : (
@@ -171,82 +168,23 @@ const Navbar = () => {
                 className="dropdown-content menu bg-[url('https://i.pinimg.com/474x/70/76/74/707674868b11a1d4cdb92e681b37b279.jpg')] bg-cover rounded-box  z-[10] p-2  shadow"
               >
                 {user && user?.email ? (
-                  <div className="flex items-center  flex-col ">
+                  <div className="flex items-center  flex-col p-2 ">
                     <img
-                      className="w-9 h-9 rounded-full"
+                      className="w-12 h-12 rounded-full"
                       src={user?.photoURL}
                       alt=""
                     />
-                    <div className="text-xs text-center">
-                      <p className="text-white lg:block">{user.displayName}</p>
-                      <p className="text-white lg:block">{user.email}</p>
-                    </div>
-                    <p className="badge badge-success mt-1">{badge}</p>
-                    <div className="flex justify-center  bg-black rounded-2xl p-3">
-                      {user.role === "admin" ? (
-                        <div className="flex flex-col justify-center items-center gap-2">
-                          <Link to={"/dashboard"}>
-                            <button className="dark:bg-red-600    rounded-xl text-white ">
-                              Manage Users
-                            </button>
-                          </Link>
-                          <Link to={"/addMeal"}>
-                            <button className="dark:bg-red-600    rounded-xl text-white ">
-                              Add Meal
-                            </button>
-                          </Link>
-                          <Link to={"/adminAllMeal"}>
-                            <button className="dark:bg-red-600    rounded-xl text-white ">
-                              Admin All Meal
-                            </button>
-                          </Link>
-                          <Link to={"/allReview"}>
-                            <button className="dark:bg-red-600    rounded-xl text-white ">
-                              All Review
-                            </button>
-                          </Link>
-                          <Link to={"/serveMeal"}>
-                            <button className="dark:bg-red-600    rounded-xl text-white ">
-                              Serve Meal
-                            </button>
-                          </Link>
-                          <Link to={"/upcomingMeal"}>
-                            <button className="dark:bg-red-600    rounded-xl text-white ">
-                              Upcoming Meal
-                            </button>
-                          </Link>
-                          <button
-                            onClick={handleLogout}
-                            className=" bg-red-600 p-1    rounded-xl text-white "
-                          >
-                            Log-out
-                          </button>
-                        </div>
-                      ) : (
-                        <div className="flex flex-col gap-2">
-                          <Link to={"/dashboard"}>
-                            <button className="dark:bg-red-600    rounded-xl text-white ">
-                              Requested Meal
-                            </button>
-                          </Link>
-                          <Link to={"/payhistory"}>
-                            <button className="dark:bg-red-600    rounded-xl text-white ">
-                              Payment History
-                            </button>
-                          </Link>
-                          <Link to={"/myReviews"}>
-                            <button className="dark:bg-red-600    rounded-xl text-white ">
-                              My Reviews
-                            </button>
-                          </Link>
-                          <button
-                            onClick={handleLogout}
-                            className="dark:bg-red-600    rounded-xl text-white "
-                          >
-                            Log-out
-                          </button>
-                        </div>
-                      )}
+
+                    <div className="text-center p-3">
+                      <Link to={"/dashboardSecond"}>
+                        <button className="text-white ">Dashboard</button>
+                      </Link>
+                      <button
+                        onClick={handleLogout}
+                        className="dark:bg-red-600  p-1   rounded-xl text-white "
+                      >
+                        Log-out
+                      </button>
                     </div>
                   </div>
                 ) : (

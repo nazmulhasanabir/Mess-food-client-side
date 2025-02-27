@@ -21,7 +21,9 @@ import ServeMeal from "../pages/Dashboard/AdminUser/ServeMeal";
 import UpcomingMealsAdmin from "../pages/Dashboard/AdminUser/UpcomingMealsAdmin";
 import AddUpcoming from "../pages/Dashboard/AdminUser/AddUpcoming";
 import Register from "../pages/Join Us/Register";
-
+import Dashboard from "../pages/Dashboard/User Dashboard/Dashboard";
+import About from "../shared/About";
+import Find from "../shared/Find";
 
 export const router = createBrowserRouter([
   {
@@ -32,24 +34,36 @@ export const router = createBrowserRouter([
         path: "/",
         element: <Home></Home>,
       },
+      // {
+      //   path: "signUp",
+      //   element: <SignUp></SignUp>,
+      // },
       {
         path: "meals/:id",
-
         element: (
           <PrivateRoute>
             <CardDetails></CardDetails>
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(`https://hostel-manaegement-server-side.vercel.app/meals/${params.id}`),
+          fetch(`http://localhost:5000/meals/${params.id}`),
       },
       {
         path: "/usermeal",
         element: <AllMeal></AllMeal>,
+        loader: () => fetch("http://localhost:5000/meals"),
       },
       {
         path: "upcoming",
         element: <UpcomingMeal></UpcomingMeal>,
+      },
+      {
+        path: "about",
+        element: <About></About>,
+      },
+      {
+        path: "find",
+        element: <Find></Find>,
       },
       {
         path: "/package/:price",
@@ -59,32 +73,25 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(`https://hostel-manaegement-server-side.vercel.app/package/${params.price}`),
+          fetch(`http://localhost:5000/package/${params.price}`),
       },
 
       {
         path: "signUp",
-        element: <Register></Register>
+        element: <Register></Register>,
       },
-      // {
-      //   path: "signUp",
-      //   element: <SignUp></SignUp>,
-      // },
       {
         path: "signIn",
         element: <SignIn></SignIn>,
       },
+
       {
         path: "review/:id",
-        element: <PrivateRoute>
-          <AddReview></AddReview>
-        </PrivateRoute>,
-      },
-      {
-        path:'paymentHistory',
-        element:<PrivateRoute>
-          <PaymentHistory></PaymentHistory>
-        </PrivateRoute>
+        element: (
+          <PrivateRoute>
+            <AddReview></AddReview>
+          </PrivateRoute>
+        ),
       },
       {
         path: "payment/:price",
@@ -94,62 +101,146 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
+      // {
+      //   path:'paymentHistory',
+      //   element:<PrivateRoute>
+      //     <PaymentHistory></PaymentHistory>
+      //   </PrivateRoute>
+      // },
+      // {
+      //   // 2
+      //   path:'/payhistory',
+      //   element:<PrivateRoute>
+      //     <PaymentHistory></PaymentHistory>
+      //     </PrivateRoute>
+
+      // },
+      // {
+      //   // 3
+      //   path:'/dashboard',
+      //   element:<PrivateRoute>
+      //     <AllUsers></AllUsers>
+      //     </PrivateRoute>
+
+      // },
+      // {
+      //   path:'/addMeal',
+      //   element:<AdminRoute><AddMeal></AddMeal> </AdminRoute>
+      // },
+      // {
+      //   path:'/adminAllMeal',
+      //   element:<AdminRoute>
+      //     <AllMeal_admin></AllMeal_admin>
+      //      </AdminRoute>
+      // },
+      // {
+      //   path:'/allReview',
+      //   element:<AdminRoute>
+      //     <AllReview></AllReview>
+      //      </AdminRoute>
+      // },
+      // {
+      //   path:'/serveMeal',
+      //   element:<AdminRoute>
+      //       <ServeMeal></ServeMeal>
+      //      </AdminRoute>
+      // },
+      // {
+      //   path:'/upcomingMeal',
+      //   element:<AdminRoute>
+      //     <UpcomingMealsAdmin></UpcomingMealsAdmin>
+      //      </AdminRoute>
+      // },
+      // {
+      //   path:'/addUpcoming',
+      //   element:<AdminRoute>
+      //     <AddUpcoming></AddUpcoming>
+      //      </AdminRoute>
+      // },
+      // {
+      //   // 1
+      //   path:'/myReviews',
+      //   element:<PrivateRoute>
+      //     <MyReview></MyReview>
+      //   </PrivateRoute>
+
+      // },
+    ],
+  },
+  {
+    path: "dashboardSecond",
+    element: <Dashboard></Dashboard>,
+    children: [
       {
-        path:'/payhistory',
-        element:<PrivateRoute>
-          <PaymentHistory></PaymentHistory>
+        path: "myReviews",
+        element: (
+          <PrivateRoute>
+            <MyReview></MyReview>
           </PrivateRoute>
-        
+        ),
       },
       {
-        path:'/dashboard',
-        element:<PrivateRoute>
-          <AllUsers></AllUsers>
+        path: "payhistory",
+        element: (
+          <PrivateRoute>
+            <PaymentHistory></PaymentHistory>
           </PrivateRoute>
-        
+        ),
       },
       {
-        path:'/addMeal',
-        element:<AdminRoute><AddMeal></AddMeal> </AdminRoute>
+        path: "dashboard",
+        element: (
+          <PrivateRoute>
+            <AllUsers></AllUsers>
+          </PrivateRoute>
+        ),
       },
       {
-        path:'/adminAllMeal',
-        element:<AdminRoute>
-          <AllMeal_admin></AllMeal_admin>
-           </AdminRoute>
+        path: "upcomingMeal",
+        element: (
+          <AdminRoute>
+            <UpcomingMealsAdmin></UpcomingMealsAdmin>
+          </AdminRoute>
+        ),
       },
       {
-        path:'/allReview',
-        element:<AdminRoute>
-          <AllReview></AllReview>
-           </AdminRoute>
-      },
-      {
-        path:'/serveMeal',
-        element:<AdminRoute>
+        path: "serveMeal",
+        element: (
+          <AdminRoute>
             <ServeMeal></ServeMeal>
-           </AdminRoute>
+          </AdminRoute>
+        ),
       },
       {
-        path:'/upcomingMeal',
-        element:<AdminRoute>
-          <UpcomingMealsAdmin></UpcomingMealsAdmin>
-           </AdminRoute>
+        path: "allReview",
+        element: (
+          <AdminRoute>
+            <AllReview></AllReview>
+          </AdminRoute>
+        ),
       },
       {
-        path:'/addUpcoming',
-        element:<AdminRoute>
-          <AddUpcoming></AddUpcoming>
-           </AdminRoute>
+        path: "adminAllMeal",
+        element: (
+          <AdminRoute>
+            <AllMeal_admin></AllMeal_admin>
+          </AdminRoute>
+        ),
       },
       {
-        path:'/myReviews',
-        element:<PrivateRoute>
-          <MyReview></MyReview>
-        </PrivateRoute>
-        
+        path: "addMeal",
+        element: (
+          <AdminRoute>
+            <AddMeal></AddMeal>{" "}
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "addUpcoming",
+        element: <AddUpcoming></AddUpcoming>,
       },
     ],
   },
- 
+
+  ,
 ]);

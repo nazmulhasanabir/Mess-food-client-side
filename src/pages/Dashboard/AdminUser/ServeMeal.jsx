@@ -12,7 +12,7 @@ const ServeMeal = () => {
 
   // useEffect(() => {
   //   axiosPublic
-  //     .get(`https://hostel-manaegement-server-side.vercel.app/mealRequest?username=${search}`)
+  //     .get(`http://localhost:5000/mealRequest?username=${search}`)
   //     .then((res) => {
   //       setMealRequests(res.data);
   //     })
@@ -22,7 +22,7 @@ const ServeMeal = () => {
   // }, [search, axiosPublic]);
   useEffect(() => {
     axiosSecure
-      .get(`https://hostel-manaegement-server-side.vercel.app/AllMealRequest`)
+      .get(`http://localhost:5000/AllMealRequest`)
       .then((res) => {
         setMealRequests(res.data);
       })
@@ -34,7 +34,7 @@ const ServeMeal = () => {
 
   const handleServe = (id) => {
     axiosPublic
-      .put(`https://hostel-manaegement-server-side.vercel.app/mealRequest/serve/${id}`)
+      .put(`http://localhost:5000/mealRequest/serve/${id}`)
       .then((response) => {
         // console.log("Meal served:", response.data);
   

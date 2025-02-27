@@ -7,15 +7,10 @@ const MealCart = ({ items }) => {
         <img src={items.image} alt="Shoes" />
       </figure>
       <p className="text-xl font-semibold">${items.price}</p>
-      <div className="card-body text-center">
-        <h2 className="card-title">{items.meal_name}</h2>
-        <div className="badge badge-secondary">{items.category}</div>
-        <p>{items.description}</p>
-        <p className="font-bold flex items-center justify-center">
-          <FaStar />
-          {items.rating}
-        </p>
-
+      <div className="card-body ">
+        <h2 className="card-title font-bold text-xl">{items.meal_name}</h2>
+        
+        <p className="text-">{items.description}</p>
         <div className="card-actions justify-end">
           <Link to={`/meals/${items._id}`}>
             <button className="btn btn-outline  border-0 border-b-4 border-r-4  mt-4">

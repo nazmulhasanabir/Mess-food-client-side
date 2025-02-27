@@ -1,5 +1,5 @@
 import useAdmin from "./useAdmin";
-import UserDashboard from "./User Dashboard/RequestMeal";
+import RequestMeal from "./User Dashboard/RequestMeal";
 import AdminDashboard from "./AdminDashboard";
 
 const AllUsers = () => {
@@ -10,7 +10,7 @@ const AllUsers = () => {
       {isAdmin ? (
         <AdminDashboard></AdminDashboard>
       ) : (
-        <UserDashboard></UserDashboard>
+        <RequestMeal></RequestMeal>
       )}
     </>
   );

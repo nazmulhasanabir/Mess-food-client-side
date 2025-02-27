@@ -9,7 +9,7 @@ import Swal from "sweetalert2";
 const CardDetails = () => {
   const CardDetails = useLoaderData();
   const {
-    meal_name,
+    title,
     _id,
     category,
     image,
@@ -21,87 +21,26 @@ const CardDetails = () => {
     price,
     reviews,
   } = CardDetails;
-  const [badge, setBadge] = useState("");
+console.log(CardDetails);
   const [like, setLike] = useState([]);
   const [reviewes, setReviews] = useState([]);
   const { user } = useContext(AuthContext);
+  const { badge } = user;
   const [isSubscribed, setIsSubscribed] = useState(false); // Flag to check if user is subscribed
   const axiosPublic = UseAxiosPublic();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (user?.email) {
-      fetch(
-        `https://hostel-manaegement-server-side.vercel.app/get-badge/${user.email}`
-      )
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.success) {
-            setBadge(data.badge);
-          } else {
-            setBadge("");
-          }
-        })
-        .catch((error) => console.error("Error fetching badge:", error));
-    }
-  }, [user?.email]);
-
-  useEffect(() => {
     // Fetch like count and reviews for this meal
-    axiosPublic
-      .get(`https://hostel-manaegement-server-side.vercel.app/like?id=${_id}`)
-      .then((res) => {
-        setLike(res.data);
-      });
+    axiosPublic.get(`http://localhost:5000/like?id=${_id}`).then((res) => {
+      setLike(res.data);
+    });
 
-    axiosPublic
-      .get(`https://hostel-manaegement-server-side.vercel.app/review?id=${_id}`)
-      .then((res) => {
-        setReviews(res.data);
-      });
-
-    // Check if user has a badge (subscription)
-    if (user?.badge) {
-      setIsSubscribed(true);
-    }
+    axiosPublic.get(`http://localhost:5000/review?id=${_id}`).then((res) => {
+      setReviews(res.data);
+    });
   }, [_id, user?.badge]);
-  // const handleMealRequest = (name, like, review, email, id) => {
 
-  //   const mealRequest = {
-  //     email: email,
-  //     name: name,
-  //     like,
-  //     review,
-  //     status: "pending",
-  //     id: id,
-  //   };
-
-     
-  //   axiosPublic
-  //     .post(
-  //       "/mealRequest",
-  //       {     email: email,
-  //         name: name,
-  //         like,
-  //         review,
-  //         status: "pending",
-  //         id: id,}
-  //     )
-  //     .then((res) => {
-  //       console.log(res);
-  //       if (res.data.insertedId) {
-  //         Swal.fire(
-  //           "Success",
-  //           "Meal request submitted successfully!",
-  //           "success"
-  //         );
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       Swal.fire("Error", "Failed to submit meal request.", "error");
-  //       console.error("Error requesting meal:", error);
-  //     });
-  // };
   const handleMealRequest = (name, like, review, email, id) => {
     const mealRequest = {
       email: email,
@@ -111,13 +50,17 @@ const CardDetails = () => {
       status: "pending",
       id: id,
     };
-  
+
     axiosPublic
-      .post("https://hostel-manaegement-server-side.vercel.app/mealRequest", mealRequest) 
+      .post("http://localhost:5000/mealRequest", mealRequest)
       .then((res) => {
         console.log(res);
         if (res.data.insertedId) {
-          Swal.fire("Success", "Meal request submitted successfully!", "success");
+          Swal.fire(
+            "Success",
+            "Meal request submitted successfully!",
+            "success"
+          );
         }
       })
       .catch((error) => {
@@ -125,116 +68,143 @@ const CardDetails = () => {
         console.error("Error requesting meal:", error);
       });
   };
-  
+
   const handleLike = (name, id) => {
-    axiosPublic.post("/like", { meal_name: name, meal_id: id }).then(() => {
-      axiosPublic
-        .get(`https://hostel-manaegement-server-side.vercel.app/like?id=${id}`)
-        .then((res) => {
-          setLike(res.data);
-        });
+    axiosPublic.post("/like", { title: name, meal_id: id }).then(() => {
+      axiosPublic.get(`http://localhost:5000/like?id=${id}`).then((res) => {
+        setLike(res.data);
+      });
     });
   };
 
   const subscription = () => {
-    if (badge === "Gold") {
-      return true;
-    } else if (badge === "Silver") {
-      return true;
-    } else if (badge === "Platinum") {
-      return true;
-    } else {
-      return false;
-    }
+    return badge !== "Bronze";
   };
+
   return (
-    <div>
-      <div className="hero bg-base-200 min-h-screen">
+    <>
+      {CardDetails ? (
         <div>
-          <img
-            src={image}
-            className="max-w-3xl rounded-lg shadow-2xl"
-            alt="Meal"
-          />
-          <div>
-            <h1 className="text-5xl font-bold">{meal_name}</h1>
-            <p className="py-6">{description}</p>
+          <div className="hero bg-base-200 min-h-screen">
             <div>
-              {reviews.map((rev, index) => (
-                <div key={index}>
-                  <p className="text-3xl font-bold">{rev.user}</p>
+              <img
+                src={image}
+                className="max-w-3xl rounded-lg shadow-2xl"
+                alt="Meal"
+              />
+              <div>
+                <h1 className="text-5xl font-bold">{title}</h1>
+                <p className="py-6">{description}</p>
+                <div>
+                  {reviews > 0 ? (
+                    reviews.map((rev, index) => (
+                      <div key={index}>
+                        <p className="text-3xl font-bold">{rev.user}</p>
+                      </div>
+                    ))
+                  ) : (
+                    <></>
+                  )}
                 </div>
-              ))}
+
+                <button
+                  onClick={() =>
+                    handleMealRequest(
+                      title,
+                      like.length,
+                      reviewes.length,
+                      user.email,
+                      _id
+                    )
+                  }
+                  className={`btn ${
+                    subscription() ? "btn-primary" : "btn-disabled"
+                  }`}
+                  disabled={!subscription()}
+                >
+                  Request For Meal
+                </button>
+
+                <button
+                  onClick={() => handleLike(title, _id)}
+                  className={`btn ${
+                    subscription() ? "btn-primary" : "btn-disabled"
+                  }`}
+                  disabled={!subscription()}
+                >
+                  <BiSolidLike />
+                  {like.length}
+                </button>
+
+                <Link to={`/review/${_id}`}>
+                  <button
+                    className={`btn ${
+                      subscription() ? "btn-primary" : "btn-disabled"
+                    }`}
+                    disabled={!subscription()}
+                  >
+                    Add Review
+                  </button>
+                </Link>
+
+                {/* Show badge info */}
+                <div className="mt-4">
+                  {subscription ? (
+                    <span className=""></span>
+                  ) : (
+                    <span className="badge badge-warning">No Subscription</span>
+                  )}
+                </div>
+              </div>
             </div>
+          </div>
 
-            <button
-              onClick={() =>
-                handleMealRequest(
-                  meal_name,
-                  like.length,
-                  reviewes.length,
-                  user.email,
-                  _id
-                )
-              }
-              className={`btn ${subscription ? "btn-primary" : "btn-disabled"}`}
-              disabled={!subscription}
-            >
-              Request For Meal
-            </button>
-
-            <button
-              onClick={() => handleLike(meal_name, _id)}
-              className={`btn btn-primary`}
-            >
-              <BiSolidLike />
-              {like.length}
-            </button>
-
-            <Link to={`/review/${_id}`}>
-              <button className="btn btn-primary">Add Review</button>
-            </Link>
-
-            {/* Show badge info */}
-            <div className="mt-4">
-              {subscription ? (
-                <span className=""></span>
-              ) : (
-                <span className="badge badge-warning">No Subscription</span>
-              )}
-            </div>
+          <div className="grid grid-cols-1 lg:grid-cols-3 w-10/12 mx-auto mt-9">
+            {reviewes.length > 0 ? (
+              reviewes.map((review) => (
+                <div
+                  key={review._id}
+                  className="card bg-blue-400 text-white w-52 shadow-xl"
+                >
+                  <figure>
+                    <img
+                      src={review.photoURL}
+                      className="rounded-full w-14 h-14"
+                      alt="Reviewer"
+                    />
+                  </figure>
+                  <div className="card-body">
+                    <h2 className="text-center font-bold">
+                      {review.Username}
+                      <div className="bg-purple-400 rounded-lg">
+                        <p className="font-semibold">{review.textReview}</p>
+                      </div>
+                    </h2>
+                    <h2 className="flex items-center">
+                      Rating <RatingCustome rating={review.starReview} />
+                    </h2>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <></>
+            )}
           </div>
         </div>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 w-10/12 mx-auto mt-9">
-        {reviewes.map((review) => (
-          <div
-            key={review._id}
-            className="card bg-blue-400 text-white w-52 shadow-xl"
-          >
-            <figure>
-              <img
-                src={review.photoURL}
-                className="rounded-full w-14 h-14"
-                alt="Reviewer"
-              />
-            </figure>
-            <div className="card-body">
-              <h2 className="text-center font-bold">
-                {review.Username}
-                <div className="bg-purple-400 rounded-lg">
-                  <p className="font-semibold">{review.textReview}</p>
-                </div>
-              </h2>
-              <h2 className="flex items-center">
-                Rating <RatingCustome rating={review.starReview} />
-              </h2>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
+      ) : (
+        <div className="flex justify-center items-center h-screen">
+          <Hourglass
+            visible={true}
+            height="80"
+            width="80"
+            ariaLabel="hourglass-loading"
+            wrapperStyle={{}}
+            wrapperClass=""
+            colors={["#306CCE", "#72A1ED"]}
+          />
+        </div>
+      )}
+    </>
   );
 };
 export default CardDetails;

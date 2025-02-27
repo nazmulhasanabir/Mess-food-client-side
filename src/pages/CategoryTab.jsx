@@ -7,7 +7,7 @@ import { Hourglass } from "react-loader-spinner";
 const CategoryTab = () => {
   const fetchMeals = async () => {
     try {
-      const response = await fetch("https://hostel-manaegement-server-side.vercel.app/meals");
+      const response = await fetch("http://localhost:5000/meals");
       const data = await response.json();
       return data;
       
@@ -20,9 +20,9 @@ const CategoryTab = () => {
     queryKey: ["meals"],
     queryFn: fetchMeals,
   });
-  const Breakfast = menu?.meals?.filter((item) => item.category === "Breakfast") ;
-  const Lunch = menu?.meals?.filter((item) => item.category === "Lunch") ;
-  const Dinner = menu?.meals?.filter((item) => item.category === "Dinner") ;
+  const Breakfast = menu?.filter((item) => item.category === "Breakfast") ;
+  const Lunch = menu?.filter((item) => item.category === "Lunch") ;
+  const Dinner = menu?.filter((item) => item.category === "Dinner") ;
   const [tabIndex, setTabindex] = useState(0);
   if (error) {
     return <div>Error loading meals: {error.message}</div>;
@@ -42,6 +42,7 @@ const CategoryTab = () => {
       </div>
     );
   }
+  console.log();
   return (
     <div className="p-6">
       <Tabs defaultIndex={tabIndex} onSelect={(index) => setTabindex(index)}>
@@ -61,7 +62,7 @@ const CategoryTab = () => {
           <MapCategory item={Dinner}></MapCategory>
         </TabPanel>
         <TabPanel>
-          <MapCategory item={menu.meals}></MapCategory>
+          <MapCategory item={menu}></MapCategory>
         </TabPanel>
       </Tabs>
     </div>

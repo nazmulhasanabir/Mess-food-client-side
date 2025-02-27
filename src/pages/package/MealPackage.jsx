@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 const MealPackage = () => {
   const PackageFetch = async () => {
     const response = await fetch(
-      "https://hostel-manaegement-server-side.vercel.app/package"
+      "http://localhost:5000/package"
     );
     return response.json();
   };
@@ -47,7 +47,7 @@ const MealPackage = () => {
 
   return (
     <div className="mt-10 p-4">
-      <h1 className="text-4xl font-bold text-center mb-8">Meal Packages</h1>
+      <p className="divider divider-error py-5 text-center text-3xl font-bold text-red-600">Meal Packages</p>
       <div className="grid md:grid-cols-3 gap-6">
         {MealPackage.map((item) => (
           <div

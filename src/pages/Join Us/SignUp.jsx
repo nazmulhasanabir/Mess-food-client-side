@@ -26,9 +26,6 @@ const SignUp = () => {
 
   const onSubmit = async (data) => {
     try {
-      // Upload image to ImgBB
-      // const formData = new FormData();
-      // formData.append("image", data.image[0]);
       const imageFile = { image: data.image[0] };
       const imageResponse = await axios.post(image_hosting_api, imageFile, {
         headers: { "Content-Type": "multipart/form-data" },

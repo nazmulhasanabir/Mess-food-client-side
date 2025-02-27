@@ -2,28 +2,23 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2/dist/sweetalert2.js";
+import UseAxiosPublic from "../../axios/UseAxiosPublic";
 
 const AllMeal_admin = () => {
+  const axiosPublic = UseAxiosPublic();
   const [meals, setMeals] = useState([]);
   const [sortBy, setSortBy] = useState("");
   const navigate = useNavigate();
+  
 
   // Fetch meals with sorting
-  const fetchMeals = async (sortBy = "") => {
-    try {
-      const { data } = await axios.get(`https://hostel-manaegement-server-side.vercel.app/meals`, {
-        params: { sortBy },
-      });
-      setMeals(data.meals);
-    } catch (error) {
-      console.error("Error fetching meals:", error);
-    }
-  };
-
   useEffect(() => {
-    fetchMeals(sortBy);
-  }, [sortBy]);
-
+    axiosPublic
+      .get("http://localhost:5000/meals")
+      .then((response) => setMeals(response.data))
+      .catch((error) => console.error("Error fetching upcoming meals:", error));
+  }, []);
+console.log(meals)
   // Handle Delete
   const handleDelete = async (_id) => {
 
@@ -40,7 +35,7 @@ const AllMeal_admin = () => {
    
     if (confirmDelete.isConfirmed) {
       try {
-        await axios.delete(`https://hostel-manaegement-server-side.vercel.app/meals/${_id}`);
+        await axios.delete(`http://localhost:5000/meals/${_id}`);
         setMeals((prevMeals) => prevMeals.filter((meal) => meal._id !== _id));
 
         // Show success message after deletion
@@ -70,7 +65,7 @@ const AllMeal_admin = () => {
   const handleUpdate = async (mealData) => {
     try {
       await axios.patch(
-        `https://hostel-manaegement-server-side.vercel.app/meals/${mealData._id}`,
+        `http://localhost:5000/meals/${mealData._id}`,
         mealData // Send updated meal data
       );
     
@@ -99,9 +94,9 @@ const AllMeal_admin = () => {
     }
   };
 
-  if (!meals) {
-    return <h1>Loading...</h1>;
-  }
+  // if (!meals) {
+  //   return <h1>Loading...</h1>;
+  // }
 
   const handleSort = (field) => {
     setSortBy(field);
@@ -142,7 +137,7 @@ const AllMeal_admin = () => {
                    <td className="p-2 border">{index+1}</td>
               <td className="p-2 border">{meal.meal_name}</td>
               <td className="p-2 border">{meal.likes}</td>
-              <td className="p-2 border">{meal.reviews_count}</td>
+              <td className="p-2 border">{}</td>
               <td className="p-2 border">{meal.rating}</td>
               <td className="p-2 border">{meal.distributor_name}</td>
               <td className="p-2 border flex space-x-2">

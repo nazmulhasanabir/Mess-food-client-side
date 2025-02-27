@@ -28,7 +28,7 @@ const PaymentHistory = () => {
       </div>
     );
   }
-
+    console.log(payment);
   return (
     <div className="p-6">
       <h2 className="text-2xl font-semibold text-gray-800 mb-6">
@@ -61,7 +61,7 @@ const PaymentHistory = () => {
                     {index + 1}
                   </td>
                   <td className="px-4 py-2 border border-gray-300 text-center">
-                    ${Number(item.price).toFixed(2)}
+                    ${Number(item.packPrice).toFixed(2)}
                   </td>
                   <td className="px-4 py-2 border border-gray-300 text-center">
                     {item.transactionId}
