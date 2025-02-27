@@ -142,7 +142,7 @@ const AllMeal = () => {
               <figure>
                 <img src={meal.image} alt="Shoes" />
               </figure>
-              <p className="text-xl font-semibold">${meal.price}</p>
+              {/* <p className="text-xl font-semibold">${meal.price}</p> */}
               <div className="card-body text-center">
                 <h2 className="font-bold text-xl">{meal.title}</h2>
                 <p className="text-lg ">{meal.description}</p>
