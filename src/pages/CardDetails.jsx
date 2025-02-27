@@ -63,11 +63,11 @@ console.log(CardDetails);
           );
         }
       })
-      .catch((error) => {
-        Swal.fire("Error", "Failed to submit meal request.", "error");
-        console.error("Error requesting meal:", error);
-      });
-  };
+  //     .catch((error) => {
+  //       Swal.fire("Error", "Failed to submit meal request.", "error");
+  //       console.error("Error requesting meal:", error);
+  //     });
+  // };
 
   // const handleLike = (name, id) => {
   //   axiosPublic.post("/like", { title: name, meal_id: id }).then(() => {
